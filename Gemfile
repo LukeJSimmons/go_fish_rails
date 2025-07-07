@@ -74,3 +74,5 @@ group :test do
   gem "webdrivers"
   gem "test-prof"
 end
+
+gem "simple_form", "~> 5.3"

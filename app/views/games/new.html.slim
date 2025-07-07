@@ -1,0 +1,7 @@
+span New game
+= simple_form_for [ @game ] do |form|
+  = form.label :name
+  = form.text_field :name
+  = form.label :players_count
+  = form.input :players_count
+  = form.submit class: "btn"

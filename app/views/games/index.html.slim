@@ -1,1 +1,4 @@
 span Games
+= render @games
+= button_to "Sign out", destroy_user_session_path, method: :delete, class: "btn"
+= link_to "New game", new_game_path, class: "btn"
