@@ -17,7 +17,7 @@ RSpec.describe 'users', type: :system do
   context 'when user is signed in' do
     before do
       visit '/'
-      login_as user
+      sign_in user
       visit '/'
     end
 

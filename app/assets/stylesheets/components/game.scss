@@ -1,0 +1,20 @@
+.game {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: var(--op-space-medium);
+
+  box-shadow: var(--op-border-all) var(--op-color-primary-plus-four);
+  border-radius: var(--op-radius-large);
+
+  background-color: var(--op-color-primary-plus-six);
+  color: var(--op-color-primary-on-plus-six);
+
+  &.game--header {
+    background-color: var(--op-color-background);
+    box-shadow: none;
+
+    margin-top: var(--op-space-3x-large);
+  }
+}

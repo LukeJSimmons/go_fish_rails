@@ -9,12 +9,18 @@ class GamesController < ApplicationController
 
   def create
     @game = Game.new(game_params)
+    @game.users << current_user
 
     if @game.save
       redirect_to games_path
     else
       render new_game_path, status: :unprocessable_entity
     end
+  end
+
+  def show
+    @game = Game.find(params[:id])
+    # @game.users << current_user unless @game.users.include? current_user
   end
 
   private

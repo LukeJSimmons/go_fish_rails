@@ -5,7 +5,7 @@ RSpec.describe 'games', type: :system, js: true do
   let!(:user) { create(:user) }
 
   before do
-    login_as user
+    sign_in user
 
     visit games_path
   end
