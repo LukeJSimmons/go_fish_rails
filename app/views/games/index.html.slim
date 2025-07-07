@@ -9,8 +9,22 @@
     .sidebar__content.sidebar__content--end
       .divider
       = button_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn--destructive"
-  .app__content
-    .game.game--header
-      span Games
-      = link_to "New game", new_game_path, class: "btn btn--primary"
-    = render @games
+  .app__content.games
+    section.games__section
+      .games__content
+        .game-row.game-row--header
+          span Games
+          = link_to "New game", new_game_path, class: "btn btn--primary"
+    
+    section.games__section
+      span.games__header Your Games
+      .games__content
+        - @games.each do |game|
+          - if game.users.first == current_user 
+            = render 'game-row', game: game
+    
+    section.games__section
+      span.games__header All Games
+      .games__content
+        - @games.each do |game|
+          = render 'game-row', game: game

@@ -1,20 +1,23 @@
 .game {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  --gf-game-sidebar-width: 40rem;
+  --gf-game-footer-height: 30rem;
 
-  padding: var(--op-space-medium);
+  height: 100%;
 
-  box-shadow: var(--op-border-all) var(--op-color-primary-plus-four);
-  border-radius: var(--op-radius-large);
+  display: grid;
+  grid-template-columns: 1fr var(--gf-game-sidebar-width);
+  grid-template-rows: 1fr var(--gf-game-footer-height);
 
-  background-color: var(--op-color-primary-plus-six);
-  color: var(--op-color-primary-on-plus-six);
+  .game__title {
+    display: flex;
+    align-items: center;
+    gap: var(--op-space-x-small);
 
-  &.game--header {
-    background-color: var(--op-color-background);
-    box-shadow: none;
-
-    margin-top: var(--op-space-3x-large);
+    > a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: var(--op-color-background-on);
+    }
   }
 }

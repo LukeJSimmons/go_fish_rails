@@ -1,0 +1,15 @@
+.games {
+  display: flex;
+  flex-direction: column;
+  gap: var(--op-space-large);
+
+  .games__section {
+    display: grid;
+    gap: var(--op-space-small);
+
+    .games__content {
+      display: grid;
+      gap: var(--op-space-small);
+    }
+  }
+}

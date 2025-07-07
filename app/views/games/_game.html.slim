@@ -1,8 +1,24 @@
-.game
-  span = game.name 
-  span = "#{game.users.count}/#{game.players_count}"
-  = link_to "Play", game, class: "btn"
-  / - if game.users.include? current_user
-    = link_to "Play", game, class: "btn"
-  / - else 
-    = link_to "Join", game, class: "btn"
+.game 
+  .panel.panel--players
+    .panel__header 
+      span.game__title
+        a href=games_path
+          i.icon.icon--large.ph.ph-arrow-left
+        span = game.name
+      span.game__title = "#{game.users.count}/#{game.players_count}"
+    .panel__content 
+      - game.users.each do |user|
+        .player
+          span = user.email
+  .panel.panel--feed
+    .panel__header 
+      span Feed
+    .panel__content
+  .panel.panel--hand
+    .panel__header 
+      span Hand
+    .panel__content
+  .panel.panel--books
+    .panel__header 
+      span Books
+    .panel__content

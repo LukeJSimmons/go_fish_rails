@@ -34,10 +34,10 @@ RSpec.describe 'games', type: :system, js: true do
     end
 
     it 'shows the game page' do
-      click_on "Play"
+      click_on "Play", match: :first
       expect(page).to have_content("Game")
       expect(page).to have_content("1/2")
-      expect(page).to have_content("Back to games")
+      expect(page).to have_content(user.email)
     end
   end
 

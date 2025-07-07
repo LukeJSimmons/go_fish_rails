@@ -2,4 +2,7 @@
 @use '@rolemodel/optics/dist/css/optics';
 @use '@rolemodel/optics/dist/css/addons/fonts/phosphor_icons';
 
+@use './components/game-row.scss';
+@use './components/games.scss';
+@use './components/panel.scss';
 @use './components/game.scss';

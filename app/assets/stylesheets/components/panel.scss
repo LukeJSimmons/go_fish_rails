@@ -1,0 +1,28 @@
+.panel {
+  --gf-panel-header-height: 5rem;
+
+  display: grid;
+  grid-template-rows: var(--gf-panel-header-height) 1fr;
+
+  .panel__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: var(--op-space-x-small);
+
+    box-shadow: inset var(--op-border-top) var(--op-color-border);
+  }
+
+  &.panel--feed {
+    box-shadow: inset var(--op-border-right) var(--op-color-border);
+  }
+
+  &.panel--hand {
+    box-shadow: inset var(--op-border-bottom) var(--op-color-border);
+  }
+
+  &.panel--books {
+    box-shadow: inset var(--op-border-width) var(--op-border-width) 0 0 var(--op-color-border);
+  }
+}
