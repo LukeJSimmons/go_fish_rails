@@ -1,5 +1,5 @@
 // Entry point for your Sass build
-@import '@rolemodel/optics/dist/css/optics';
-@import '@rolemodel/optics/dist/css/addons/fonts/phosphor_icons';
+@use '@rolemodel/optics/dist/css/optics';
+@use '@rolemodel/optics/dist/css/addons/fonts/phosphor_icons';
 
-@import './components/game.scss';
+@use './components/game.scss';
