@@ -1,6 +1,7 @@
 class GamesController < ApplicationController
   def index
-    @games = Game.all
+    @your_games = current_user.games
+    @all_games = Game.where.not(id: current_user.game_ids)
   end
 
   def new
@@ -20,7 +21,25 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
-    # @game.users << current_user unless @game.users.include? current_user
+  end
+
+  def edit
+    @game = Game.find(params[:id])
+  end
+
+  def update
+    @game = Game.find(params[:id])
+
+    if @game.update(game_params)
+      redirect_to games_path
+    end
+  end
+
+  def destroy
+    @game = Game.find(params[:id])
+    @game.destroy!
+
+    redirect_to games_path
   end
 
   private

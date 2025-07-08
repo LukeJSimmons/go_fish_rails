@@ -19,6 +19,7 @@
   .game-row__actions {
     display: flex;
     gap: var(--op-space-medium);
+    justify-content: end;
   }
 
   &.game-row--header {
@@ -26,5 +27,15 @@
     box-shadow: none;
 
     margin-top: var(--op-space-3x-large);
+  }
+
+  &.game-row--form {
+    align-items: end;
+    gap: var(--op-space-small);
+
+    > * {
+      flex: 1;
+      padding-block: var(--op-space-small);
+    }
   }
 }

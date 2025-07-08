@@ -4,10 +4,10 @@
     span = "#{game.users.count}/#{game.players_count}"
   .game-row__actions
     - if game.users.first == current_user
-      = link_to "Delete", game, method: :delete, class: "btn btn--destructive"
+      = button_to "Delete", game, method: :delete, class: "btn btn--destructive"
       = link_to "Edit", edit_game_path(game), class: "btn"
     
     - if game.users.include? current_user
       = link_to "Play", game, class: "btn btn--primary"
     - else 
-      = link_to "Join", game, class: "btn"
+      = button_to "Join", game_users_path, class: "btn", params: { game_id: game, user_id: current_user}

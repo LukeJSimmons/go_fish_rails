@@ -1,7 +1,7 @@
 .app-with-sidebar
   .sidebar
     .sidebar__brand 
-      span Go Fish
+      span Go Fish The Logo
     .sidebar__content
       span.btn
         i.icon.icon--x-large.ph.ph-joystick
@@ -19,12 +19,10 @@
     section.games__section
       span.games__header Your Games
       .games__content
-        - @games.each do |game|
-          - if game.users.first == current_user 
-            = render 'game-row', game: game
+        - @your_games.each do |game|
+          = render 'game-row', game: game
     
     section.games__section
       span.games__header All Games
-      .games__content
-        - @games.each do |game|
-          = render 'game-row', game: game
+      - @all_games.each do |game|
+        = render 'game-row', game: game, user: current_user
