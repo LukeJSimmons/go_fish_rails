@@ -18,7 +18,9 @@
     .panel__header 
       span Hand
     .panel__content
-      = game.get_player_by_user(current_user)&.hand
+      .cards
+        - game.get_player_by_user(current_user)&.hand.each do |card|
+          = image_tag "cards/#{card.rank}#{card.suit}.svg", class: "cards__card"
   .panel.panel--books
     .panel__header 
       span Books

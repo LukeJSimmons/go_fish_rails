@@ -1,0 +1,9 @@
+.cards {
+  --gf-playing-card-height: 16rem;
+
+  display: flex;
+
+  .cards__card {
+    height: var(--gf-playing-card-height);
+  }
+}
