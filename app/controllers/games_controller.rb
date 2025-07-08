@@ -21,6 +21,7 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
+    @game.start! if @game.users.count == @game.players_count
   end
 
   def edit

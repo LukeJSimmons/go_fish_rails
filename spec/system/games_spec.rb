@@ -93,6 +93,30 @@ RSpec.describe 'games', type: :system, js: true do
     end
   end
 
+  describe 'game view' do
+    let!(:other_user) { create(:user) }
+    let(:name) { 'Game' }
+    let(:players_count) { 2 }
+
+    before do
+      login_as user
+      visit games_path
+      create_game(name, players_count)
+      login_as other_user
+      visit games_path
+      click_on 'Join'
+    end
+
+    it 'displays players' do
+      expect(page).to have_content(user.email)
+      expect(page).to have_content(other_user.email)
+    end
+
+    it 'displays hand' do
+      expect(page).to have_content(Game.all.first.get_player_by_user(user)&.hand)
+    end
+  end
+
   private
 
   def create_game(name, players_count)
