@@ -7,7 +7,7 @@ RSpec.describe 'games', type: :system, js: true do
   before do
     sign_in user
 
-    visit games_path
+    visit '/'
   end
 
   describe 'creating a new game' do
@@ -38,6 +38,19 @@ RSpec.describe 'games', type: :system, js: true do
       expect(page).to have_content("Game")
       expect(page).to have_content("1/2")
       expect(page).to have_content(user.email)
+    end
+  end
+
+  describe 'editing a game' do
+    let(:name) { 'Game' }
+    let(:players_count) { 2 }
+
+    before do
+      create_game(name, players_count)
+    end
+
+    it 'has an edit game button' do
+      expect(page).to have_content("Edit")
     end
   end
 
