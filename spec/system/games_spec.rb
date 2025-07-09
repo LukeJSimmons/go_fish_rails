@@ -97,28 +97,48 @@ RSpec.describe 'games', type: :system do
       visit games_path
       expect(page).to have_content("Join")
       click_on "Join"
+      expect(page).to have_content("Turn")
       game.reload
     end
 
-    it 'displays players' do
-      expect(page).to have_content(user.email)
-      expect(page).to have_content(other_user.email)
-    end
-
-    it 'displays hand' do
-      game.get_player_by_user(other_user).hand.each do |card|
-        expect(page).to have_css("img[alt*='#{card.rank}#{card.suit}']")
+    describe 'players section' do
+      it 'displays players' do
+        expect(page).to have_content(user.email)
+        expect(page).to have_content(other_user.email)
       end
     end
 
-    it 'does not display opponent hand' do
-      game.get_player_by_user(user).hand.each do |card|
-        expect(page).to have_no_css("img[alt*='#{card.rank}#{card.suit}']")
+    describe 'hand' do
+      it 'displays hand' do
+        game.get_player_by_user(other_user).hand.each do |card|
+          expect(page).to have_css("img[alt*='#{card.rank}#{card.suit}']")
+        end
+      end
+
+      it 'does not display opponent hand' do
+        game.get_player_by_user(user).hand.each do |card|
+          expect(page).to have_no_css("img[alt*='#{card.rank}#{card.suit}']")
+        end
       end
     end
 
-    it 'displays current player' do
-      expect(page).to have_content("#{game.current_player.name}'s Turn")
+    describe 'feed' do
+      it 'displays current player' do
+        expect(page).to have_content("#{game.current_player.name}'s Turn")
+      end
+
+      context 'when play round button is pressed' do
+        before do
+          expect(page).to have_button("Play Round")
+          select user.email, from: "Target"
+          select game.get_player_by_user(user).hand.first.rank, from: "Request"
+          click_on "Play Round"
+        end
+
+        it 'changes current_player' do
+          expect(page).to have_content("#{game.get_player_by_user(other_user).name}'s Turn")
+        end
+      end
     end
   end
 

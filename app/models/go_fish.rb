@@ -18,6 +18,10 @@ class GoFish
     end
   end
 
+  def play_round!(target, request)
+    advance_round
+  end
+
   def current_player
     players[round%players.count]
   end

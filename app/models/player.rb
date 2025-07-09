@@ -14,7 +14,6 @@ class Player
 
 
   def self.from_json(json)
-    # binding.irb
     user_id = json["user_id"]
     name = json["name"]
     hand = json["hand"].map do |card_hash|

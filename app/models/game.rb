@@ -17,6 +17,11 @@ class Game < ApplicationRecord
     save!
   end
 
+  def play_round!(target, request)
+    go_fish.play_round!(target, request)
+    save!
+  end
+
   def current_player
     go_fish.current_player
   end
