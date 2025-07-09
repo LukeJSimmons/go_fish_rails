@@ -14,7 +14,9 @@ class Player
 
   def self.from_json(json)
     user_id = json["user_id"]
-    hand = json["hand"]
+    hand = json["hand"].map do |card_hash|
+       Card.new(**card_hash.symbolize_keys)
+     end
     self.new(user_id, hand)
   end
 end

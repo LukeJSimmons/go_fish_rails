@@ -5,7 +5,7 @@ class Deck
 
   BASE_DECK_SIZE = 52
 
-  def initialize(cards = Array.new(52, Card.new("A", "H")))
+  def initialize(cards = build_cards)
     @cards = cards
   end
 
@@ -15,5 +15,15 @@ class Deck
 
   def draw_card
     cards.pop
+  end
+
+  private
+
+  def build_cards
+    Card::RANKS.flat_map do |rank|
+      Card::SUITS.map do |suit|
+        Card.new(rank:, suit:)
+      end
+    end
   end
 end

@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Game, type: :model do
   let!(:user) { create(:user) }
-  let!(:game) { create(:game) }
-  let!(:game_user) { create(:game_user, user: user, game: game) }
+  let!(:other_user) { create(:user) }
+  let!(:game) { create(:game, users: [ user, other_user ]) }
 
   describe '#start!' do
     it 'sets go_fish to GoFish game' do
@@ -19,7 +19,7 @@ RSpec.describe Game, type: :model do
 
     it 'deals hands to players' do
       game.start!
-      expect(game.go_fish.deck.cards_left).to eq 45
+      expect(game.go_fish.deck.cards_left).to eq Deck::BASE_DECK_SIZE - (GoFish::BASE_HAND_SIZE * 2)
       expect(game.go_fish.players.first.hand.count).to eq 7
     end
   end

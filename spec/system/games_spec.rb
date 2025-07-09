@@ -1,7 +1,7 @@
 require 'rails_helper'
 include Warden::Test::Helpers
 
-RSpec.describe 'games', type: :system, js: true do
+RSpec.describe 'games', type: :system do
   let!(:user) { create(:user) }
 
   before do
@@ -24,22 +24,17 @@ RSpec.describe 'games', type: :system, js: true do
   end
 
   describe 'showing a game' do
-    let(:name) { 'Game' }
-    let(:players_count) { 2 }
-
-    before do
-      create_game(name, players_count)
-    end
+    let!(:game) { create(:game, users: [ user ]) }
 
     it 'shows the game page' do
+      visit games_path
       click_on "Play", match: :first
-      expect(page).to have_content("Game")
-      expect(page).to have_content("1/2")
-      expect(page).to have_content(user.email)
+      expect(page).to have_content("Waiting for players...")
     end
 
     context 'when you are not in the game' do
       let!(:other_user) { create(:user) }
+      let!(:game) { create(:game, users: [ user ]) }
 
       before do
         login_as other_user
@@ -95,16 +90,14 @@ RSpec.describe 'games', type: :system, js: true do
 
   describe 'game view' do
     let!(:other_user) { create(:user) }
-    let(:name) { 'Game' }
-    let(:players_count) { 2 }
+    let!(:game) { create(:game, users: [ user ]) }
 
     before do
-      login_as user
-      visit games_path
-      create_game(name, players_count)
       login_as other_user
       visit games_path
-      click_on 'Join'
+      expect(page).to have_content("Join")
+      click_on "Join"
+      game.reload
     end
 
     it 'displays players' do
@@ -113,7 +106,15 @@ RSpec.describe 'games', type: :system, js: true do
     end
 
     it 'displays hand' do
-      expect(page).to have_content(Game.all.first.get_player_by_user(user)&.hand)
+      game.get_player_by_user(other_user).hand.each do |card|
+        expect(page).to have_css("img[alt*='#{card.rank}#{card.suit}']")
+      end
+    end
+
+    it 'does not display opponent hand' do
+      game.get_player_by_user(user).hand.each do |card|
+        expect(page).to have_no_css("img[alt*='#{card.rank}#{card.suit}']")
+      end
     end
   end
 

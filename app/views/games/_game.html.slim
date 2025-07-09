@@ -1,27 +1,30 @@
-.game 
-  .panel.panel--players
-    .panel__header 
-      span.game__title
-        a href=games_path
-          i.icon.icon--large.ph.ph-arrow-left
-        span = game.name
-      span.game__title = "#{game.users.count}/#{game.players_count}"
-    .panel__content 
-      - game.users.each do |user|
-        .player
-          span = user.email
-  .panel.panel--feed
-    .panel__header 
-      span Feed
-    .panel__content
-  .panel.panel--hand
-    .panel__header 
-      span Hand
-    .panel__content
-      .cards
-        - game.get_player_by_user(current_user)&.hand.each do |card|
-          = image_tag "cards/#{card.rank}#{card.suit}.svg", class: "cards__card"
-  .panel.panel--books
-    .panel__header 
-      span Books
-    .panel__content
+- if game.users.count == game.players_count
+  .game 
+    .panel.panel--players
+      .panel__header 
+        span.game__title
+          a href=games_path
+            i.icon.icon--large.ph.ph-arrow-left
+          span = game.name
+        span.game__title = "#{game.users.count}/#{game.players_count}"
+      .panel__content 
+        - game.users.each do |user|
+          .player
+            span = user.email
+    .panel.panel--feed
+      .panel__header 
+        span Feed
+      .panel__content
+    .panel.panel--hand
+      .panel__header 
+        span Hand
+      .panel__content
+        .cards
+          - game.get_player_by_user(current_user).hand.each do |card|
+            = image_tag "cards/#{card.rank}#{card.suit}.svg", class: "cards__card", alt: "#{card.rank}#{card.suit}"
+    .panel.panel--books
+      .panel__header 
+        span Books
+      .panel__content
+- else
+  span Waiting for players...

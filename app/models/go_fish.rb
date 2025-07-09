@@ -23,7 +23,7 @@ class GoFish
       Player.from_json(player_hash)
     end
     deck = Deck.new(json["deck"]["cards"].map do |card_hash|
-       Card.new(card_hash["rank"], card_hash["suit"])
+       Card.new(**card_hash.symbolize_keys)
      end)
     self.new(players, deck, json["current_player_index"])
   end
