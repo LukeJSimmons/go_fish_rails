@@ -16,7 +16,6 @@
   }
 
   .panel__content {
-    padding: var(--op-space-large);
     &.panel__content--h-scroll {
       overflow-x: auto;
     }
@@ -24,6 +23,10 @@
 
   &.panel--feed {
     box-shadow: inset var(--op-border-right) var(--op-color-border);
+
+    .panel__content {
+      padding: var(--op-space-small);
+    }
   }
 
   &.panel--hand {

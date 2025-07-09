@@ -26,6 +26,10 @@ class Game < ApplicationRecord
     go_fish.current_player
   end
 
+  def opponents(current_user)
+    go_fish.players - [ get_player_by_user(current_user) ]
+  end
+
   def get_player_by_user(user)
     go_fish.players.find { |player| player.user_id == user.id }
   end

@@ -1,0 +1,21 @@
+.feed {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr auto;
+
+  .feed__request-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--op-space-x-small);
+
+    padding: var(--op-space-medium);
+    border-radius: var(--op-radius-large);
+
+    background-color: var(--op-color-primary-plus-six);
+    color: var(--op-color-primary-on-plus-six);
+
+    > .btn {
+      grid-column: span 2;
+    }
+  }
+}

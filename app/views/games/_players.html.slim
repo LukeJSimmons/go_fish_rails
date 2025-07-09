@@ -1,0 +1,11 @@
+.panel.panel--players
+  .panel__header 
+    span.game__title
+      a href=games_path
+        i.icon.icon--large.ph.ph-arrow-left
+      span = game.name
+    span.game__title = "#{game.users.count}/#{game.players_count}"
+  .panel__content 
+    - game.users.each do |user|
+      .player
+        span = user.email

@@ -2,7 +2,8 @@ class RoundsController < ApplicationController
   def create
     @game = Game.find(params["game_id"])
     @round_form = RoundForm.new(round_form_params)
-    @game.play_round!(params["target"], params["request"]) if @round_form.valid?
+    return unless @round_form.valid?
+    @game.play_round!(params["target"], params["request"])
     redirect_to @game
   end
 

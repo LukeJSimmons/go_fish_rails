@@ -1,0 +1,14 @@
+.panel.panel--feed
+  .panel__header 
+    span Feed
+    span.badge.badge--primary = "#{game.current_player.name}'s Turn"
+  .panel__content
+    .feed 
+      .feed__responses
+      = simple_form_for :round, url: game_rounds_path(game), html: { class: "feed__request-form" } do |form|
+        = form.input :target, collection: game.opponents(current_user), prompt: "Select target", class: "form-control"
+        = form.input :request, collection: game.get_player_by_user(current_user).hand.map(&:rank).uniq, prompt: "Select request", class: "form-control"
+        - if game.current_player == game.get_player_by_user(current_user)
+          = form.submit "Play Round", class: "btn btn--primary"
+        - else 
+          = form.submit "Play Round", class: "btn btn--primary", disabled: true

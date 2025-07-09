@@ -129,14 +129,21 @@ RSpec.describe 'games', type: :system do
 
       context 'when play round button is pressed' do
         before do
+          login_as user
+          visit games_path
+          click_on "Play"
           expect(page).to have_button("Play Round")
-          select user.email, from: "Target"
+          select other_user.email, from: "Target"
           select game.get_player_by_user(user).hand.first.rank, from: "Request"
           click_on "Play Round"
         end
 
         it 'changes current_player' do
           expect(page).to have_content("#{game.get_player_by_user(other_user).name}'s Turn")
+        end
+
+        it 'disables play round button' do
+          expect(page).to have_button("Play Round", disabled: true)
         end
       end
     end
