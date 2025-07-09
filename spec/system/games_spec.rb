@@ -116,6 +116,10 @@ RSpec.describe 'games', type: :system do
         expect(page).to have_no_css("img[alt*='#{card.rank}#{card.suit}']")
       end
     end
+
+    it 'displays current player' do
+      expect(page).to have_content("#{game.current_player.name}'s Turn")
+    end
   end
 
   private

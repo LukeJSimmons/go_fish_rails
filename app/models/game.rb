@@ -11,10 +11,14 @@ class Game < ApplicationRecord
 
   def start!
     return unless users.count == players_count
-    players = users.map { |user| Player.new(user.id) }
+    players = users.map { |user| Player.new(user.id, user.email) }
     self.go_fish = GoFish.new(players)
     go_fish.deal_cards!
     save!
+  end
+
+  def current_player
+    go_fish.current_player
   end
 
   def get_player_by_user(user)

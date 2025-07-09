@@ -14,7 +14,7 @@ RSpec.describe Card do
     let(:card) { Card.new(rank: '14', suit: 'H') }
 
     it 'throws error' do
-      expect { card }.to raise_error
+      expect { card }.to raise_error StandardError
     end
   end
 
@@ -22,7 +22,7 @@ RSpec.describe Card do
     let(:card) { Card.new(rank: '2', suit: 'Y') }
 
     it 'throws error' do
-      expect { card }.to raise_error
+      expect { card }.to raise_error StandardError
     end
   end
 end
