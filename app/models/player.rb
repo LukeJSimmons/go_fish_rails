@@ -29,4 +29,8 @@ class Player
       hand: hand
     }
   end
+
+  def ==(other_player)
+    user_id == other_player.user_id
+  end
 end

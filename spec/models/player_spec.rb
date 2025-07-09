@@ -1,5 +1,3 @@
-require_relative '../../app/models/player'
-
 RSpec.describe Player do
   let(:player) { Player.new(1, 'Player 1') }
   it 'has a user_id' do

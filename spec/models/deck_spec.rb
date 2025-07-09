@@ -1,5 +1,3 @@
-require_relative '../../app/models/deck'
-
 RSpec.describe Deck do
   let(:deck) { Deck.new }
 

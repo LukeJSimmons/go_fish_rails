@@ -1,5 +1,3 @@
-require_relative '../../app/models/card'
-
 RSpec.describe Card do
   let(:card) { Card.new(rank: 'A', suit: 'H') }
   it 'has a rank' do

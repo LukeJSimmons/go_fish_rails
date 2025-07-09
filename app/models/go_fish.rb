@@ -18,8 +18,9 @@ class GoFish
   end
 
   def play_round!(target, request)
+    target = players.find { |player| player.name == target }
+    self.round_results << RoundResult.new(current_player:, target:, request:)
     advance_round
-    self.round_results << RoundResult.new(target:, request:)
   end
 
   def current_player

@@ -9,20 +9,40 @@
     align-items: start;
     gap: var(--op-space-small);
 
-    .feed__bubble {
+    .feed__response {
       width: 100%;
+      padding-inline: var(--op-space-medium);
+      display: flex;
+      align-items: center;
+      gap: var(--op-space-x-small);
+    }
+  }
 
-      font-size: var(--op-font-small);
+  .feed__bubble {
+    width: 100%;
 
-      padding: var(--op-space-small);
-      border-radius: var(--op-radius-large);
+    font-size: var(--op-font-small);
 
-      &.feed__bubble--player-action {
-        width: auto;
-        font-size: var(--op-font-medium);
-        background-color: var(--op-color-primary-plus-five);
-        color: var(--op-color-primary-on-plus-five-alt);
-      }
+    padding: var(--op-space-small);
+    border-radius: var(--op-radius-large);
+
+    &.feed__bubble--player-action {
+      width: auto;
+      font-size: var(--op-font-medium);
+      background-color: var(--op-color-primary-plus-five);
+      color: var(--op-color-primary-on-plus-five);
+    }
+
+    &.feed__bubble--player-response {
+      background-color: var(--op-color-alerts-warning-plus-five);
+      color: var(--op-color-alerts-warning-on-plus-five-alt);
+      box-shadow: var(--op-border-all) var(--op-color-alerts-warning-plus-four);
+    }
+
+    &.feed__bubble--game-response {
+      background-color: var(--op-color-neutral-plus-max);
+      color: var(--op-color-neutral-on-plus-max-alt);
+      box-shadow: var(--op-border-all) var(--op-color-neutral-plus-seven);
     }
   }
 

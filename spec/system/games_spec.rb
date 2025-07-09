@@ -141,8 +141,16 @@ RSpec.describe 'games', type: :system do
           click_on "Play Round"
         end
 
-        it 'displays target and request in feed' do
+        it 'displays player action' do
           expect(page).to have_content("You asked #{target} for #{request}s")
+        end
+
+        it 'displays player response' do
+          expect(page).to have_content("#{target} didn't have any #{request}s")
+        end
+
+        it 'displays game response' do
+          expect(page).to have_content("You drew a 10")
         end
 
         it 'changes current_player' do

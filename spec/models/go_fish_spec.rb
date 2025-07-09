@@ -1,6 +1,3 @@
-require_relative '../../app/models/go_fish'
-require_relative '../../app/models/player'
-
 RSpec.describe GoFish do
   let(:player1) { Player.new(0, 'Player 1') }
   let(:player2) { Player.new(1, 'Player 2') }
