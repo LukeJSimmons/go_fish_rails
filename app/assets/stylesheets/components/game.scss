@@ -5,7 +5,7 @@
   height: 100%;
 
   display: grid;
-  grid-template-columns: 1fr var(--gf-game-sidebar-width);
+  grid-template-columns: 1fr min(var(--gf-game-sidebar-width), 40%);
   grid-template-rows: 1fr var(--gf-game-footer-height);
 
   .game__title {

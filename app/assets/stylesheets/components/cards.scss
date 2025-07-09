@@ -1,7 +1,12 @@
 .cards {
-  --gf-playing-card-height: 16rem;
+  --gf-playing-card-height: 18rem;
+  --gf-playing-card-overlap: -6rem;
 
   display: flex;
+
+  > *:not(:last-child) {
+    margin-right: var(--gf-playing-card-overlap);
+  }
 
   .cards__card {
     height: var(--gf-playing-card-height);
