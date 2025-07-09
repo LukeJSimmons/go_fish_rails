@@ -128,14 +128,21 @@ RSpec.describe 'games', type: :system do
       end
 
       context 'when play round button is pressed' do
+        let(:target) { other_user.email }
+        let(:request) { game.get_player_by_user(user).hand.first.rank }
+
         before do
           login_as user
           visit games_path
           click_on "Play"
           expect(page).to have_button("Play Round")
-          select other_user.email, from: "Target"
-          select game.get_player_by_user(user).hand.first.rank, from: "Request"
+          select target, from: "Target"
+          select request, from: "Request"
           click_on "Play Round"
+        end
+
+        it 'displays target and request in feed' do
+          expect(page).to have_content("You asked #{target} for #{request}s")
         end
 
         it 'changes current_player' do

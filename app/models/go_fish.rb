@@ -1,15 +1,14 @@
-require_relative "./deck"
-
 class GoFish
   attr_reader :deck, :players
-  attr_accessor :round
+  attr_accessor :round, :round_results
 
   BASE_HAND_SIZE = 7
 
-  def initialize(players = [], deck = Deck.new, round = 0)
+  def initialize(players = [], deck = Deck.new, round = 0, round_results = [])
     @deck = deck
     @players = players
     @round = round
+    @round_results = round_results
   end
 
   def deal_cards!
@@ -20,6 +19,7 @@ class GoFish
 
   def play_round!(target, request)
     advance_round
+    self.round_results << RoundResult.new(target:, request:)
   end
 
   def current_player
@@ -38,7 +38,10 @@ class GoFish
     deck = Deck.new(json["deck"]["cards"].map do |card_hash|
        Card.new(**card_hash.symbolize_keys)
      end)
-    self.new(players, deck, json["round"])
+    round_results = json["round_results"].map do |result_hash|
+      RoundResult.from_json(result_hash)
+    end
+    self.new(players, deck, json["round"], round_results)
   end
 
   def self.load(json)
@@ -54,7 +57,8 @@ class GoFish
     {
       players: players.map(&:as_json),
       round: round,
-      deck: deck.as_json
+      deck: deck.as_json,
+      round_results: round_results.map(&:as_json)
     }
   end
 end

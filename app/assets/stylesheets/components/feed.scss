@@ -3,6 +3,29 @@
   display: grid;
   grid-template-rows: 1fr auto;
 
+  .feed__responses {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: var(--op-space-small);
+
+    .feed__bubble {
+      width: 100%;
+
+      font-size: var(--op-font-small);
+
+      padding: var(--op-space-small);
+      border-radius: var(--op-radius-large);
+
+      &.feed__bubble--player-action {
+        width: auto;
+        font-size: var(--op-font-medium);
+        background-color: var(--op-color-primary-plus-five);
+        color: var(--op-color-primary-on-plus-five-alt);
+      }
+    }
+  }
+
   .feed__request-form {
     display: grid;
     grid-template-columns: 1fr 1fr;

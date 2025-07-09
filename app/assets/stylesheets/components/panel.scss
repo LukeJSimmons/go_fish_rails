@@ -5,6 +5,8 @@
   grid-template-rows: var(--gf-panel-header-height) 1fr;
   overflow: hidden;
 
+  background-color: var(--op-color-white);
+
   .panel__header {
     display: flex;
     align-items: center;
@@ -22,6 +24,8 @@
   }
 
   &.panel--feed {
+    background-color: var(--op-color-primary-plus-eight);
+    color: var(--op-primary-on-plus-eight);
     box-shadow: inset var(--op-border-right) var(--op-color-border);
 
     .panel__content {
@@ -30,10 +34,12 @@
   }
 
   &.panel--hand {
+    background-color: var(--op-color-neutral-plus-eight);
     box-shadow: inset var(--op-border-bottom) var(--op-color-border);
   }
 
   &.panel--books {
+    background-color: var(--op-color-neutral-plus-eight);
     box-shadow: inset var(--op-border-width) var(--op-border-width) 0 0 var(--op-color-border);
   }
 }

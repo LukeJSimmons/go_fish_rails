@@ -5,8 +5,10 @@
   .panel__content
     .feed 
       .feed__responses
+        - game.go_fish.round_results.each do |round|
+          .feed__bubble.feed__bubble--player-action = "You asked #{round.target} for #{round.request}s"
       = simple_form_for :round, url: game_rounds_path(game), html: { class: "feed__request-form" } do |form|
-        = form.input :target, collection: game.opponents(current_user), prompt: "Select target", class: "form-control"
+        = form.input :target, collection: game.opponents(current_user).map(&:name), prompt: "Select target", class: "form-control"
         = form.input :request, collection: game.get_player_by_user(current_user).hand.map(&:rank).uniq, prompt: "Select request", class: "form-control"
         - if game.current_player == game.get_player_by_user(current_user)
           = form.submit "Play Round", class: "btn btn--primary"
