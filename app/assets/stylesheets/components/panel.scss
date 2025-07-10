@@ -26,6 +26,8 @@
   }
 
   &.panel--players {
+    --gf-panel-header-height: 7rem;
+
     .panel__content {
       display: flex;
       flex-direction: column;
@@ -36,6 +38,8 @@
   }
 
   &.panel--feed {
+    --gf-panel-header-height: 7rem;
+
     background-color: var(--op-color-primary-plus-eight);
     color: var(--op-primary-on-plus-eight);
     box-shadow: inset var(--op-border-right) var(--op-color-border);

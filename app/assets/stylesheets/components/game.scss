@@ -8,16 +8,22 @@
   grid-template-columns: 1fr min(var(--gf-game-sidebar-width), 40%);
   grid-template-rows: 1fr var(--gf-game-footer-height);
 
-  .game__title {
-    display: flex;
-    align-items: center;
-    gap: var(--op-space-x-small);
+  .game__header {
+    padding: var(--op-space-medium);
 
-    > a {
+    .game__title {
       display: flex;
       align-items: center;
-      text-decoration: none;
-      color: var(--op-color-background-on);
+      gap: var(--op-space-x-small);
+      font-size: var(--op-font-large);
+      font-weight: var(--op-font-weight-medium);
+  
+      > a {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: var(--op-color-background-on);
+      }
     }
   }
 }

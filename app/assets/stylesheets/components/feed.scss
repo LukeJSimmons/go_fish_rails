@@ -31,18 +31,18 @@
       width: auto;
       font-size: var(--op-font-medium);
       background-color: var(--op-color-primary-plus-five);
-      color: var(--op-color-primary-on-plus-five);
+      color: var(--op-color-primary-on-plus-five-alt);
     }
 
     &.feed__bubble--player-response {
-      background-color: var(--op-color-alerts-warning-plus-five);
-      color: var(--op-color-alerts-warning-on-plus-five-alt);
+      background-color: var(--op-color-alerts-warning-plus-seven);
+      color: var(--op-color-alerts-warning-on-plus-seven-alt);
       box-shadow: var(--op-border-all) var(--op-color-alerts-warning-plus-four);
     }
 
     &.feed__bubble--game-response {
       background-color: var(--op-color-neutral-plus-max);
-      color: var(--op-color-neutral-on-plus-max-alt);
+      color: var(--op-color-neutral-on-plus-max);
       box-shadow: var(--op-border-all) var(--op-color-neutral-plus-seven);
     }
   }
