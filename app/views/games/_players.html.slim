@@ -6,6 +6,23 @@
       span = game.name
     span.game__title = "#{game.users.count}/#{game.players_count}"
   .panel__content 
-    - game.users.each do |user|
-      .player
-        span = user.email
+    span.panel__title Players
+    - game.go_fish.opponents.each do |opponent|
+      details.accordion.player
+        summary
+          i.accordion__marker.ph.ph-caret-right
+          span.player__label = opponent.name
+          .player__info 
+            .player__label-grouo
+              span.player__label = "Cards: "
+              span.player__label.player__label--bold = opponent.hand.count
+            .player__label-grouo
+              span.player__label = "Books: "
+              span.player__label.player__label--bold = opponent.books.count
+        .player__card-group
+          .cards.cards--player
+            - opponent.hand.each do |card|
+              = image_tag "cards/2B.svg", class: "cards__card"
+          .cards.cards--player
+            - opponent.books.each do |book|
+              = image_tag "cards/#{book.first.rank}#{book.first.suit}.svg", class: "cards__card", alt: "#{book.first.rank}#{book.first.suit}"

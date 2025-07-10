@@ -102,9 +102,25 @@ RSpec.describe 'games', type: :system do
     end
 
     describe 'players section' do
-      it 'displays players' do
-        expect(page).to have_content(user.email)
+      before do
+        game.get_player_by_user(user).books = [ [ Card.new('A', 'H') ] ]
+        game.save!
+        visit games_path
+        click_on "Play"
+      end
+
+      it 'displays opponents' do
         expect(page).to have_content(other_user.email)
+      end
+
+      it 'displays players books' do
+        within '.accordion' do
+          expect(page).to have_content(other_user.email)
+          find('span', text: other_user.email).click
+        end
+        game.get_player_by_user(other_user).books.map(&:first).each do |card|
+          expect(page).to have_css("img[alt*='#{card.rank}#{card.suit}']")
+        end
       end
     end
 

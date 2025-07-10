@@ -1,0 +1,35 @@
+.player {
+  background-color: var(--op-color-primary-plus-eight);
+  box-shadow: var(--op-border-all) var(--op-color-primary-plus-four);
+  border-radius: var(--op-radius-x-large);
+
+  summary {
+    box-shadow: var(--op-border-all) var(--op-color-primary-plus-four);
+    padding: var(--op-space-small);
+    padding-right: var(--op-space-large);
+  }
+
+  .player__label {
+    &.player__label--bold {
+      font-weight: var(--op-font-weight-bold);
+    }
+  }
+
+  .player__info {
+    display: flex;
+    gap: var(--op-space-x-small);
+  }
+
+  .player__card-group {
+    display: flex;
+    justify-content: space-between;
+
+    padding: var(--op-space-small);
+  }
+
+  &[open] {
+    summary {
+      background-color: var(--op-color-primary-plus-six);
+    }
+  }
+}

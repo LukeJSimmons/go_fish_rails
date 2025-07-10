@@ -25,6 +25,16 @@
     }
   }
 
+  &.panel--players {
+    .panel__content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--op-space-medium);
+      
+      padding: var(--op-space-large);
+    }
+  }
+
   &.panel--feed {
     background-color: var(--op-color-primary-plus-eight);
     color: var(--op-primary-on-plus-eight);
@@ -38,10 +48,18 @@
   &.panel--hand {
     background-color: var(--op-color-neutral-plus-eight);
     box-shadow: inset var(--op-border-bottom) var(--op-color-border);
+
+    .panel__content {
+      padding: var(--op-space-medium);
+    }
   }
 
   &.panel--books {
     background-color: var(--op-color-neutral-plus-eight);
     box-shadow: inset var(--op-border-width) var(--op-border-width) 0 0 var(--op-color-border);
+
+    .panel__content {
+      padding: var(--op-space-medium);
+    }
   }
 }
