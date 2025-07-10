@@ -7,9 +7,23 @@ RSpec.describe Deck do
     expect(deck.cards.all? { |card| card.respond_to? :rank }).to eq true
   end
 
+  it 'has four cards for each rank' do
+    Card::RANKS.each do |rank|
+      expect(deck.cards.select { |card| card.rank == rank }.count).to eq 4
+    end
+  end
+
   describe '#cards_left' do
     it 'returns card count' do
       expect(deck.cards_left).to eq deck.cards.count
+    end
+  end
+
+  describe '#shuffle!' do
+    it 'shuffles the deck' do
+      expect(deck).to eq Deck.new
+      deck.shuffle!
+      expect(deck).to_not eq Deck.new
     end
   end
 end

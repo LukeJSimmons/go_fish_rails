@@ -1,6 +1,5 @@
 class GoFish
-  attr_reader :deck, :players
-  attr_accessor :round, :round_results
+  attr_accessor :round, :round_results, :deck, :players
 
   BASE_HAND_SIZE = 7
 
@@ -11,10 +10,9 @@ class GoFish
     @round_results = round_results
   end
 
-  def deal_cards!
-    BASE_HAND_SIZE.times do
-      players.each { |player| player.add_card_to_hand(deck.draw_card) }
-    end
+  def start!
+    deck.shuffle!
+    deal_cards!
   end
 
   def play_round!(target, request)
@@ -70,6 +68,12 @@ class GoFish
   end
 
   private
+
+  def deal_cards!
+    BASE_HAND_SIZE.times do
+      players.each { |player| player.add_card_to_hand(deck.draw_card) }
+    end
+  end
 
   def take_matching_cards(target, request)
     matching_cards = target.matching_cards(request)

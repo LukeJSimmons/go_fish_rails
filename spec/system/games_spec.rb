@@ -128,10 +128,17 @@ RSpec.describe 'games', type: :system do
       end
 
       context 'when play round button is pressed' do
+        let(:deck) { Deck.new }
+        let(:player1_hand) { [ Card.new('A', 'H'), Card.new('A', 'C') ] }
+        let(:player2_hand) { [ Card.new('A', 'D'), Card.new('A', 'S') ] }
         let(:target) { other_user.email }
         let(:request) { game.get_player_by_user(user).hand.first.rank }
 
         before do
+          game.go_fish.deck = deck
+          game.go_fish.players.first.hand = player1_hand
+          game.go_fish.players[1].hand = player2_hand
+          game.save!
           login_as user
           visit games_path
           click_on "Play"
@@ -161,7 +168,7 @@ RSpec.describe 'games', type: :system do
           end
 
           it 'displays game response' do
-            expect(page).to have_content("You drew a 10")
+            expect(page).to have_content("You drew a K")
           end
 
           it 'changes current_player' do
