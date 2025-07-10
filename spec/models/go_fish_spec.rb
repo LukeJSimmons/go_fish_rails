@@ -90,6 +90,7 @@ RSpec.describe GoFish do
       end
 
       context 'when drawn card is request' do
+        let(:deck) { Deck.new([ Card.new('K', 'S') ]) }
         let(:second_request) { "K" }
 
         it 'does not switch turns' do
@@ -98,6 +99,8 @@ RSpec.describe GoFish do
       end
 
       context 'when drawn card is not request' do
+        let(:deck) { Deck.new([ Card.new('9', 'H') ]) }
+
         it 'switches turns' do
           expect(go_fish.current_player).to_not eq go_fish.round_results.last.current_player
         end
@@ -109,6 +112,21 @@ RSpec.describe GoFish do
         it 'does not draw card' do
           expect(go_fish.round_results.last.drawn_card).to eq nil
         end
+      end
+    end
+
+    context 'when player makes a book' do
+      let(:player1_hand) { [ Card.new('A', 'H'), Card.new('A', 'D'), Card.new('A', 'S') ] }
+      let(:player2_hand) { [ Card.new('A', 'C') ] }
+
+      it 'removes book from hand' do
+        go_fish.play_round!(target, request)
+        expect(go_fish.round_results.last.current_player.hand.count).to eq 0
+      end
+
+      it 'adds book to books' do
+        go_fish.play_round!(target, request)
+        expect(go_fish.round_results.last.current_player.books.count).to eq 1
       end
     end
   end

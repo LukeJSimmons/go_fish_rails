@@ -122,6 +122,21 @@ RSpec.describe 'games', type: :system do
       end
     end
 
+    describe 'books' do
+      before do
+        game.get_player_by_user(other_user).books = [ [ Card.new('A', 'H') ] ]
+        game.save!
+        visit games_path
+        click_on "Play"
+      end
+
+      it 'displays books' do
+        game.get_player_by_user(other_user).books.map(&:first).each do |card|
+          expect(page).to have_css("img[alt*='#{card.rank}#{card.suit}']")
+        end
+      end
+    end
+
     describe 'feed' do
       it 'displays current player' do
         expect(page).to have_content("#{game.current_player.name}'s Turn")
@@ -142,41 +157,53 @@ RSpec.describe 'games', type: :system do
           login_as user
           visit games_path
           click_on "Play"
-          expect(page).to have_button("Play Round")
-          select target, from: "Target"
-          select request, from: "Request"
-          click_on "Play Round"
         end
 
-        it 'displays player action' do
-          expect(page).to have_content("You asked #{target} for #{request}s")
-        end
+        context 'when target has request' do
+          before do
+            expect(page).to have_button("Play Round")
+            select target, from: "Target"
+            select request, from: "Request"
+            click_on "Play Round"
+          end
 
-        it 'displays player response' do
-          expect(page).to have_content("You took 2 #{request}s from #{target}")
-        end
+          it 'displays player action' do
+            expect(page).to have_content("You asked #{target} for #{request}s")
+          end
 
-        it 'does not display game response' do
-          expect(page).to have_no_css(".feed__bubble--game-response")
+          it 'displays player response' do
+            expect(page).to have_content("You took 2 #{request}s from #{target}")
+          end
+
+          it 'does not display game response' do
+            expect(page).to have_no_css(".feed__bubble--game-response")
+          end
         end
 
         context 'when target does not have request' do
+          let(:player1_hand) { [ Card.new('10', 'H') ] }
+          let(:player2_hand) { [ Card.new('Q', 'D') ] }
+          let(:request) { '10' }
+
           before do
+            expect(page).to have_button("Play Round")
             select target, from: "Target"
             select request, from: "Request"
             click_on "Play Round"
           end
 
           it 'displays game response' do
-            expect(page).to have_content("You drew a K")
+            expect(page).to have_content("You drew a A")
           end
 
-          it 'changes current_player' do
-            expect(page).to have_content("#{game.get_player_by_user(other_user).name}'s Turn")
-          end
+          context 'when drawn card is not request' do
+            it 'changes current_player' do
+              expect(page).to have_content("#{game.get_player_by_user(other_user).name}'s Turn")
+            end
 
-          it 'disables play round button' do
-            expect(page).to have_button("Play Round", disabled: true)
+            it 'disables play round button' do
+              expect(page).to have_button("Play Round", disabled: true)
+            end
           end
         end
       end
