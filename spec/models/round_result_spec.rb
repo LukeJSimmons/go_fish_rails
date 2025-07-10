@@ -46,6 +46,8 @@ RSpec.describe RoundResult do
 
   describe '#game_response' do
     context 'when target has request' do
+      let(:matching_cards) { [ Card.new('A', 'H') ] }
+
       it 'returns nil' do
         expect(result.game_response(current_player)).to eq nil
       end
@@ -56,6 +58,14 @@ RSpec.describe RoundResult do
 
       it 'displays drawn card' do
         expect(result.game_response(current_player)).to include result.drawn_card.rank
+      end
+
+      context 'when the deck is empty' do
+        let(:drawn_card) { nil }
+
+        it 'displays empty deck message' do
+          expect(result.game_response(current_player)).to include "deck is empty"
+        end
       end
     end
   end

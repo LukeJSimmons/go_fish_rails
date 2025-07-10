@@ -19,7 +19,8 @@ class RoundResult
   end
 
   def game_response(recipient)
-    "#{subject(recipient)} drew a #{drawn_card.rank}" if drawn_card
+    return "#{subject(recipient)} drew a #{drawn_card.rank}" if drawn_card
+    "The deck is empty!" if matching_cards.empty?
   end
 
   def self.from_json(json)

@@ -1,9 +1,10 @@
 RSpec.describe GoFish do
+  let(:deck) { Deck.new }
   let(:player1_hand) { [] }
   let(:player2_hand) { [] }
   let(:player1) { Player.new(0, 'Player 1', player1_hand) }
   let(:player2) { Player.new(1, 'Player 2', player2_hand) }
-  let(:go_fish) { GoFish.new([ player1, player2 ]) }
+  let(:go_fish) { GoFish.new([ player1, player2 ], deck) }
   it 'has a deck' do
     expect(go_fish).to respond_to :deck
     expect(go_fish.deck).to be_a Deck
@@ -99,6 +100,14 @@ RSpec.describe GoFish do
       context 'when drawn card is not request' do
         it 'switches turns' do
           expect(go_fish.current_player).to_not eq go_fish.round_results.last.current_player
+        end
+      end
+
+      context 'when deck is empty' do
+        let(:deck) { Deck.new([]) }
+
+        it 'does not draw card' do
+          expect(go_fish.round_results.last.drawn_card).to eq nil
         end
       end
     end
