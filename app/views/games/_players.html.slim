@@ -7,7 +7,7 @@
     span.game__title = "#{game.users.count}/#{game.players_count}"
   .panel__content 
     span.panel__title Players
-    - game.go_fish.opponents.each do |opponent|
+    - game.opponents(current_user).each do |opponent|
       details.accordion.player
         summary
           i.accordion__marker.ph.ph-caret-right

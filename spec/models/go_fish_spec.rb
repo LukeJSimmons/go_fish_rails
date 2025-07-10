@@ -36,6 +36,13 @@ RSpec.describe GoFish do
     end
   end
 
+  describe '#opponents' do
+    it 'returns opponents' do
+      expect(go_fish.opponents).to_not include go_fish.current_player
+      expect(go_fish.opponents.all? { |opponent| go_fish.players.include? opponent }).to eq true
+    end
+  end
+
   describe '#play_round!' do
     let(:player1_hand) { [ Card.new('A', 'H') ] }
     let(:player2_hand) { [ Card.new('A', 'D') ] }
