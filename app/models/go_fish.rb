@@ -19,12 +19,17 @@ class GoFish
 
   def play_round!(target, request)
     target = players.find { |player| player.name == target }
-    self.round_results << RoundResult.new(current_player:, target:, request:)
+    matching_cards = take_matching_cards(target, request)
+    self.round_results << RoundResult.new(current_player:, target:, request:, matching_cards:)
     advance_round
   end
 
   def current_player
     players[round%players.count]
+  end
+
+  def opponents
+    players - [ current_player ]
   end
 
   def advance_round
@@ -37,7 +42,7 @@ class GoFish
       Player.from_json(player_hash)
     end
     deck = Deck.new(json["deck"]["cards"].map do |card_hash|
-       Card.new(**card_hash.symbolize_keys)
+       Card.new(card_hash["rank"], card_hash["suit"])
      end)
     round_results = json["round_results"].map do |result_hash|
       RoundResult.from_json(result_hash)
@@ -61,5 +66,14 @@ class GoFish
       deck: deck.as_json,
       round_results: round_results.map(&:as_json)
     }
+  end
+
+  private
+
+  def take_matching_cards(target, request)
+    matching_cards = target.matching_cards(request)
+    target.hand -= matching_cards
+    current_player.hand += matching_cards
+    matching_cards
   end
 end

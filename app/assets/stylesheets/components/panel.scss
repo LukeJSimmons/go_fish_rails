@@ -3,9 +3,10 @@
 
   display: grid;
   grid-template-rows: var(--gf-panel-header-height) 1fr;
-  overflow: hidden;
 
   background-color: var(--op-color-white);
+
+  overflow: hidden;
 
   .panel__header {
     display: flex;
@@ -18,6 +19,7 @@
   }
 
   .panel__content {
+    overflow: hidden;
     &.panel__content--h-scroll {
       overflow-x: auto;
     }

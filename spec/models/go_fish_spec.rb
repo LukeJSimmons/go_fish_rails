@@ -1,6 +1,8 @@
 RSpec.describe GoFish do
-  let(:player1) { Player.new(0, 'Player 1') }
-  let(:player2) { Player.new(1, 'Player 2') }
+  let(:player1_hand) { [] }
+  let(:player2_hand) { [] }
+  let(:player1) { Player.new(0, 'Player 1', player1_hand) }
+  let(:player2) { Player.new(1, 'Player 2', player2_hand) }
   let(:go_fish) { GoFish.new([ player1, player2 ]) }
   it 'has a deck' do
     expect(go_fish).to respond_to :deck
@@ -29,6 +31,41 @@ RSpec.describe GoFish do
 
       it 'returns player at current_player_index' do
         expect(go_fish.current_player).to eq go_fish.players[1]
+      end
+    end
+  end
+
+  describe '#play_round!' do
+    let(:player1_hand) { [ Card.new('A', 'H') ] }
+    let(:player2_hand) { [ Card.new('A', 'D') ] }
+    let(:target) { go_fish.opponents.first.name }
+    let(:request) { go_fish.current_player.hand.first.rank }
+
+    it 'adds round result to round results' do
+      expect {
+        go_fish.play_round!(target, request)
+      }.to change(go_fish.round_results, :count).by 1
+    end
+
+    context 'when target has request' do
+      before do
+        go_fish.play_round!(target, request)
+      end
+
+      it 'has proper matching cards' do
+        expect(go_fish.round_results.last.matching_cards).to eq player2_hand
+      end
+
+      it 'removes matching cards from target hand' do
+        go_fish.round_results.last.matching_cards.each do |card|
+          expect(go_fish.round_results.last.target.hand).to_not include card
+        end
+      end
+
+      it 'adds matching cards to current_player hand' do
+        go_fish.round_results.last.matching_cards.each do |card|
+          expect(go_fish.round_results.last.current_player.hand).to include card
+        end
       end
     end
   end

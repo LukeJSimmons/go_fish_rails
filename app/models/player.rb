@@ -12,12 +12,16 @@ class Player
     hand << card
   end
 
+  def matching_cards(request)
+    hand.select { |card| card.rank == request }
+  end
+
 
   def self.from_json(json)
     user_id = json["user_id"]
     name = json["name"]
     hand = json["hand"].map do |card_hash|
-       Card.new(**card_hash.symbolize_keys)
+       Card.new(card_hash["rank"], card_hash["suit"])
      end
     self.new(user_id, name, hand)
   end

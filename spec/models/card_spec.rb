@@ -1,5 +1,5 @@
 RSpec.describe Card do
-  let(:card) { Card.new(rank: 'A', suit: 'H') }
+  let(:card) { Card.new('A', 'H') }
   it 'has a rank' do
     expect(card).to respond_to :rank
   end
@@ -9,7 +9,7 @@ RSpec.describe Card do
   end
 
   context 'when rank is invalid' do
-    let(:card) { Card.new(rank: '14', suit: 'H') }
+    let(:card) { Card.new('14', 'H') }
 
     it 'throws error' do
       expect { card }.to raise_error StandardError
@@ -17,7 +17,7 @@ RSpec.describe Card do
   end
 
   context 'when suit is invalid' do
-    let(:card) { Card.new(rank: '2', suit: 'Y') }
+    let(:card) { Card.new('2', 'Y') }
 
     it 'throws error' do
       expect { card }.to raise_error StandardError

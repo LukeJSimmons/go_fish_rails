@@ -5,7 +5,7 @@
   .panel__content
     .feed 
       .feed__responses
-        - game.go_fish.round_results.each do |round|
+        - game.go_fish.round_results.reverse.each do |round|
           .feed__bubble.feed__bubble--player-action
             span = round.player_action(game.get_player_by_user(current_user))
           .feed__response

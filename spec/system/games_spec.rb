@@ -146,7 +146,7 @@ RSpec.describe 'games', type: :system do
         end
 
         it 'displays player response' do
-          expect(page).to have_content("#{target} didn't have any #{request}s")
+          expect(page).to have_content("You took 2 #{request}s from #{target}")
         end
 
         it 'displays game response' do
