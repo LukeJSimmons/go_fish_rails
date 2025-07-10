@@ -8,7 +8,7 @@
         span Games
     .sidebar__content.sidebar__content--end
       .divider
-      = current_user.email
+      = current_user.username
       = button_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn--destructive"
   .app__content.games
     section.games__section
