@@ -36,6 +36,11 @@ class GoFish
     self.round += 1
   end
 
+  def winner
+    return player_with_most_books unless tie?
+    player_with_highest_rank_book
+  end
+
 
   def self.from_json(json)
     players = json["players"].map do |player_hash|
@@ -81,5 +86,22 @@ class GoFish
     target.hand -= matching_cards
     current_player.hand += matching_cards
     matching_cards
+  end
+
+  def tie?
+    total_books = players.map(&:books).map(&:count)
+    total_books.all? { |books_count| books_count == total_books.first }
+  end
+
+  def player_with_most_books
+    total_books = players.map(&:books).map(&:count)
+    players[total_books.find_index(total_books.max)]
+  end
+
+  def player_with_highest_rank_book
+    players_highest_books = players.map do |player|
+      player.books.map(&:first).map(&:value).max
+    end
+    players[players_highest_books.find_index(players_highest_books.max)]
   end
 end

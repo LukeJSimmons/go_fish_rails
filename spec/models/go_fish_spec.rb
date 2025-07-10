@@ -137,4 +137,48 @@ RSpec.describe GoFish do
       end
     end
   end
+
+  describe '#winner' do
+    context 'when Player 1 has the most books' do
+      before do
+        player1.books = [ [ Card.new('A', 'H') ] ]
+      end
+
+      it 'returns Player 1' do
+        expect(go_fish.winner).to eq player1
+      end
+    end
+
+    context 'when Player 2 has the most books' do
+      before do
+        player2.books = [ [ Card.new('A', 'H') ] ]
+      end
+
+      it 'returns Player 2' do
+        expect(go_fish.winner).to eq player2
+      end
+    end
+
+    context 'when Players are tied for the most books' do
+      context 'when Player 1 has highest rank book' do
+        before do
+          player1.books = [ [ Card.new('A', 'H') ], [ Card.new('J', 'H') ] ]
+          player2.books = [ [ Card.new('Q', 'H') ], [ Card.new('K', 'H') ] ]
+        end
+        it 'returns Player 1' do
+          expect(go_fish.winner).to eq player1
+        end
+      end
+
+      context 'when Player 2 has highest rank book' do
+        before do
+          player1.books = [ [ Card.new('Q', 'H') ] ]
+          player2.books = [ [ Card.new('A', 'H') ] ]
+        end
+        it 'returns Player 2' do
+          expect(go_fish.winner).to eq player2
+        end
+      end
+    end
+  end
 end
