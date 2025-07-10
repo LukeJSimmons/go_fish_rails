@@ -149,16 +149,28 @@ RSpec.describe 'games', type: :system do
           expect(page).to have_content("You took 2 #{request}s from #{target}")
         end
 
-        it 'displays game response' do
-          expect(page).to have_content("You drew a 10")
+        it 'does not display game response' do
+          expect(page).to have_no_css(".feed__bubble--game-response")
         end
 
-        it 'changes current_player' do
-          expect(page).to have_content("#{game.get_player_by_user(other_user).name}'s Turn")
-        end
+        context 'when target does not have request' do
+          before do
+            select target, from: "Target"
+            select request, from: "Request"
+            click_on "Play Round"
+          end
 
-        it 'disables play round button' do
-          expect(page).to have_button("Play Round", disabled: true)
+          it 'displays game response' do
+            expect(page).to have_content("You drew a 10")
+          end
+
+          it 'changes current_player' do
+            expect(page).to have_content("#{game.get_player_by_user(other_user).name}'s Turn")
+          end
+
+          it 'disables play round button' do
+            expect(page).to have_button("Play Round", disabled: true)
+          end
         end
       end
     end

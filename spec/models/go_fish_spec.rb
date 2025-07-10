@@ -67,6 +67,40 @@ RSpec.describe GoFish do
           expect(go_fish.round_results.last.current_player.hand).to include card
         end
       end
+
+      it 'does not switch turns' do
+        expect(go_fish.current_player).to eq go_fish.round_results.last.current_player
+      end
+    end
+
+    context 'when target does not have request' do
+      let(:second_request) { "A" }
+      before do
+        go_fish.play_round!(target, request)
+        go_fish.play_round!(target, second_request)
+      end
+
+      it 'draws a card' do
+        expect(go_fish.round_results.last.drawn_card).to respond_to :rank
+      end
+
+      it 'adds drawn card to current player hand' do
+        expect(go_fish.round_results.last.current_player.hand).to include go_fish.round_results.last.drawn_card
+      end
+
+      context 'when drawn card is request' do
+        let(:second_request) { "K" }
+
+        it 'does not switch turns' do
+          expect(go_fish.current_player).to eq go_fish.round_results.last.current_player
+        end
+      end
+
+      context 'when drawn card is not request' do
+        it 'switches turns' do
+          expect(go_fish.current_player).to_not eq go_fish.round_results.last.current_player
+        end
+      end
     end
   end
 end

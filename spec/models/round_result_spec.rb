@@ -3,7 +3,8 @@ RSpec.describe RoundResult do
   let(:target) { Player.new(1, 'Player 2') }
   let(:request) { "A" }
   let(:matching_cards) { [] }
-  let(:result) { RoundResult.new(current_player:, target:, request:, matching_cards:) }
+  let(:drawn_card) { nil }
+  let(:result) { RoundResult.new(current_player:, target:, request:, matching_cards:, drawn_card:) }
 
   describe '#player_action' do
     it 'displays target and request' do
@@ -39,6 +40,22 @@ RSpec.describe RoundResult do
     context 'when target does not have request' do
       it 'displays correct message' do
         expect(result.player_response(current_player)).to include "didn't have any"
+      end
+    end
+  end
+
+  describe '#game_response' do
+    context 'when target has request' do
+      it 'returns nil' do
+        expect(result.game_response(current_player)).to eq nil
+      end
+    end
+
+    context 'when target does not have request' do
+      let(:drawn_card) { Card.new('8', 'H') }
+
+      it 'displays drawn card' do
+        expect(result.game_response(current_player)).to include result.drawn_card.rank
       end
     end
   end

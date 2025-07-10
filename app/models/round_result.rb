@@ -1,11 +1,12 @@
 class RoundResult
-  attr_reader :target, :request, :current_player, :matching_cards
+  attr_reader :target, :request, :current_player, :matching_cards, :drawn_card
 
-  def initialize(current_player:, target:, request:, matching_cards:)
+  def initialize(current_player:, target:, request:, matching_cards:, drawn_card:)
     @current_player = current_player
     @target = target
     @request = request
     @matching_cards = matching_cards
+    @drawn_card = drawn_card
   end
 
   def player_action(recipient)
@@ -18,7 +19,7 @@ class RoundResult
   end
 
   def game_response(recipient)
-    "#{subject(recipient)} drew a 10"
+    "#{subject(recipient)} drew a #{drawn_card.rank}" if drawn_card
   end
 
   def self.from_json(json)
@@ -28,7 +29,8 @@ class RoundResult
     matching_cards = json["matching_cards"].map do |card_hash|
       Card.new(card_hash["rank"], card_hash["suit"])
     end
-    self.new(target:, request:, current_player:, matching_cards:)
+    drawn_card = json["drawn_card"] == nil ? nil : Card.new(json["drawn_card"]["rank"], json["drawn_card"]["suit"])
+    self.new(target:, request:, current_player:, matching_cards:, drawn_card:)
   end
 
   def as_json(*)
@@ -36,7 +38,8 @@ class RoundResult
       current_player: current_player,
       target: target,
       request: request,
-      matching_cards: matching_cards.map(&:as_json)
+      matching_cards: matching_cards.map(&:as_json),
+      drawn_card: drawn_card
     }
   end
 

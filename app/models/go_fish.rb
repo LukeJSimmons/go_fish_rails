@@ -20,8 +20,9 @@ class GoFish
   def play_round!(target, request)
     target = players.find { |player| player.name == target }
     matching_cards = take_matching_cards(target, request)
-    self.round_results << RoundResult.new(current_player:, target:, request:, matching_cards:)
-    advance_round
+    drawn_card = current_player.add_card_to_hand(deck.draw_card) if matching_cards.empty?
+    self.round_results << RoundResult.new(current_player:, target:, request:, matching_cards:, drawn_card:)
+    advance_round if matching_cards.empty? && drawn_card.rank != request
   end
 
   def current_player

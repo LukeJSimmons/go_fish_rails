@@ -10,6 +10,7 @@ class Player
 
   def add_card_to_hand(card)
     hand << card
+    card
   end
 
   def matching_cards(request)
