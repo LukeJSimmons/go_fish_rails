@@ -111,8 +111,8 @@ RSpec.describe 'games', type: :system do
 
       it 'displays players books' do
         within '.accordion' do
-          expect(page).to have_content(user.email)
-          find('span', text: user.email).click
+          expect(page).to have_content(user.username)
+          find('span', text: user.username).click
         end
         game.get_player_by_user(user).books.map(&:first).each do |card|
           expect(page).to have_css("img[alt*='#{card.rank}#{card.suit}']")
@@ -158,7 +158,7 @@ RSpec.describe 'games', type: :system do
         let(:deck) { Deck.new }
         let(:player1_hand) { [ Card.new('A', 'H'), Card.new('A', 'C') ] }
         let(:player2_hand) { [ Card.new('A', 'D'), Card.new('A', 'S') ] }
-        let(:target) { other_user.email }
+        let(:target) { other_user.username }
         let(:request) { game.get_player_by_user(user).hand.first.rank }
 
         before do
