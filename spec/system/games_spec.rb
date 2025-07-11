@@ -218,6 +218,23 @@ RSpec.describe 'games', type: :system do
             end
           end
         end
+
+        context 'when player scores a book' do
+          let(:player1_hand) { [ Card.new('A', 'H'), Card.new('A', 'S') ] }
+          let(:player2_hand) { [ Card.new('A', 'D'), Card.new('A', 'C') ] }
+          let(:request) { 'A' }
+
+          before do
+            expect(page).to have_button("Play Round")
+            select target, from: "Target"
+            select request, from: "Request"
+            click_on "Play Round"
+          end
+
+          it 'displays scored book message' do
+            expect(page).to have_content("You scored a book of #{request}s")
+          end
+        end
       end
     end
 

@@ -26,7 +26,7 @@ class RoundResult
   end
 
   def book_message(recipient, book)
-    "#{subject(recipient)} scored a book of #{book.first.rank}"
+    "#{subject(recipient)} scored a book of #{book.first.rank}s"
   end
 
   def self.from_json(json)
