@@ -16,12 +16,12 @@ class GoFish
   end
 
   def play_round!(target, request)
-    target = players.find { |player| player.name == target }
     matching_cards = take_matching_cards(target, request)
-    drawn_card = current_player.add_card_to_hand(deck.draw_card) if matching_cards.empty?
+    fished_card = current_player.add_card_to_hand(deck.draw_card) if matching_cards.empty? && !deck.empty?
     scored_books = current_player.score_books_if_possible!
-    self.round_results << RoundResult.new(current_player:, target:, request:, matching_cards:, drawn_card:, scored_books:)
-    advance_round if matching_cards.empty? && drawn_card&.rank != request
+    drawn_cards = !deck.empty? && players.any? { |player| player.hand.empty? } ? Hash[*players.map { |player| [ player, player.add_card_to_hand(deck.draw_card) ] if player.hand.empty? }] : {}
+    self.round_results << RoundResult.new(current_player:, target:, request:, matching_cards:, fished_card:, scored_books:, drawn_cards:)
+    advance_round if matching_cards.empty? && fished_card&.rank != request
   end
 
   def current_player
@@ -47,15 +47,9 @@ class GoFish
 
 
   def self.from_json(json)
-    players = json["players"].map do |player_hash|
-      Player.from_json(player_hash)
-    end
-    deck = Deck.new(json["deck"]["cards"].map do |card_hash|
-       Card.new(card_hash["rank"], card_hash["suit"])
-     end)
-    round_results = json["round_results"].map do |result_hash|
-      RoundResult.from_json(result_hash)
-    end
+    players = json["players"].map { |player_hash| Player.from_json(player_hash) }
+    deck = Deck.new(json["deck"]["cards"].map { |card_hash| Card.new(card_hash["rank"], card_hash["suit"]) })
+    round_results = json["round_results"].map { |result_hash| RoundResult.from_json(result_hash) }
     self.new(players, deck, json["round"], round_results)
   end
 

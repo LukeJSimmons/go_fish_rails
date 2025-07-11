@@ -3,9 +3,10 @@ RSpec.describe RoundResult do
   let(:target) { Player.new(1, 'Player 2') }
   let(:request) { "A" }
   let(:matching_cards) { [] }
-  let(:drawn_card) { nil }
+  let(:fished_card) { nil }
   let(:scored_books) { [] }
-  let(:result) { RoundResult.new(current_player:, target:, request:, matching_cards:, drawn_card:, scored_books:) }
+  let(:drawn_cards) { [] }
+  let(:result) { RoundResult.new(current_player:, target:, request:, matching_cards:, fished_card:, scored_books:, drawn_cards:) }
 
   describe '#player_action' do
     it 'displays target and request' do
@@ -73,26 +74,51 @@ RSpec.describe RoundResult do
     end
 
     context 'when target does not have request' do
-      let(:drawn_card) { Card.new('8', 'H') }
+      let(:fished_card) { Card.new('8', 'H') }
 
       context 'when displaying to current_player' do
         it 'displays drawn card' do
-          expect(result.game_response(current_player)).to include result.drawn_card.rank
+          expect(result.game_response(current_player)).to include result.fished_card.rank
         end
       end
 
       context 'when displaying to opponents' do
         it 'does not display drawn card' do
-          expect(result.game_response(target)).to_not include result.drawn_card.rank
+            expect(result.game_response(target)).to_not include result.fished_card.rank
         end
       end
 
       context 'when the deck is empty' do
-        let(:drawn_card) { nil }
+        let(:fished_card) { nil }
 
         it 'displays empty deck message' do
           expect(result.game_response(current_player)).to include "deck is empty"
         end
+      end
+    end
+  end
+
+  describe '#draw_card_message' do
+    let(:fished_card) { Card.new('8', 'H') }
+
+    context 'when displaying to current_player' do
+      it 'displays card rank' do
+        expect(result.draw_card_message(current_player, fished_card)).to include fished_card.rank
+      end
+
+      it 'displays in the 2nd person' do
+        expect(result.draw_card_message(current_player, fished_card)).to include "You"
+      end
+    end
+
+    context 'when displaying to opponent' do
+      it 'displays only that the player drew a card' do
+        expect(result.draw_card_message(target, fished_card)).to_not include fished_card.rank
+        expect(result.draw_card_message(target, fished_card)).to include "drew"
+      end
+
+      it 'displays in the 3rd person' do
+        expect(result.draw_card_message(target, fished_card)).to include current_player.name
       end
     end
   end

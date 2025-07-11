@@ -46,7 +46,7 @@ RSpec.describe GoFish do
   describe '#play_round!' do
     let(:player1_hand) { [ Card.new('A', 'H') ] }
     let(:player2_hand) { [ Card.new('A', 'D') ] }
-    let(:target) { go_fish.opponents.first.name }
+    let(:target) { go_fish.opponents.first }
     let(:request) { go_fish.current_player.hand.first.rank }
 
     it 'adds round result to round results' do
@@ -79,21 +79,29 @@ RSpec.describe GoFish do
       it 'does not switch turns' do
         expect(go_fish.current_player).to eq go_fish.round_results.last.current_player
       end
+
+      context 'when taken cards leave opponent hand empty' do
+        it 'adds a card to opponent hand' do
+          expect(player2.hand.count).to eq 1
+        end
+      end
     end
 
     context 'when target does not have request' do
+      let(:deck) { Deck.new([ Card.new('10', 'S'), Card.new('2', 'S') ]) }
       let(:second_request) { "A" }
+
       before do
         go_fish.play_round!(target, request)
         go_fish.play_round!(target, second_request)
       end
 
       it 'draws a card' do
-        expect(go_fish.round_results.last.drawn_card).to respond_to :rank
+        expect(go_fish.round_results.last.fished_card).to respond_to :rank
       end
 
       it 'adds drawn card to current player hand' do
-        expect(go_fish.round_results.last.current_player.hand).to include go_fish.round_results.last.drawn_card
+        expect(go_fish.round_results.last.current_player.hand).to include go_fish.round_results.last.fished_card
       end
 
       context 'when drawn card is request' do
@@ -117,23 +125,33 @@ RSpec.describe GoFish do
         let(:deck) { Deck.new([]) }
 
         it 'does not draw card' do
-          expect(go_fish.round_results.last.drawn_card).to eq nil
+          expect(go_fish.round_results.last.fished_card).to eq nil
         end
       end
     end
 
     context 'when player makes a book' do
-      let(:player1_hand) { [ Card.new('A', 'H'), Card.new('A', 'D'), Card.new('A', 'S') ] }
+      let(:player1_hand) { [ Card.new('A', 'H'), Card.new('A', 'D'), Card.new('A', 'S'), Card.new('10', 'C'), Card.new('9', 'C') ] }
       let(:player2_hand) { [ Card.new('A', 'C') ] }
 
-      it 'removes book from hand' do
+      before do
         go_fish.play_round!(target, request)
-        expect(go_fish.round_results.last.current_player.hand.count).to eq 0
+      end
+
+      it 'removes book from hand' do
+        expect(go_fish.round_results.last.current_player.hand.count).to eq 2
       end
 
       it 'adds book to books' do
-        go_fish.play_round!(target, request)
         expect(go_fish.round_results.last.current_player.books.count).to eq 1
+      end
+
+      context 'when scored book empties hand' do
+        let(:player1_hand) { [ Card.new('A', 'H'), Card.new('A', 'D'), Card.new('A', 'S') ] }
+
+        it 'draws a card' do
+          expect(go_fish.round_results.last.current_player.hand.count).to eq 1
+        end
       end
     end
   end

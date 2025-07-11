@@ -17,6 +17,11 @@
               i.icon.ph.ph-arrow-elbow-down-right
               .feed__bubble.feed__bubble--game-response
                 span = round.game_response(game.get_player_by_user(current_user))
+          - round.drawn_cards.each do |player, card|
+            .feed__response
+              i.icon.ph.ph-arrow-elbow-down-right
+              .feed__bubble.feed__bubble--game-response
+                span.draw = round.draw_card_message(player, card)
           - round.scored_books.each do |book|
             .feed__response 
               i.icon.ph.ph-arrow-elbow-down-right 

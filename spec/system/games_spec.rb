@@ -156,7 +156,7 @@ RSpec.describe 'games', type: :system do
 
       context 'when play round button is pressed' do
         let(:deck) { Deck.new }
-        let(:player1_hand) { [ Card.new('A', 'H'), Card.new('A', 'C') ] }
+        let(:player1_hand) { [ Card.new('A', 'H'), Card.new('A', 'C'), Card.new('10', 'H') ] }
         let(:player2_hand) { [ Card.new('A', 'D'), Card.new('A', 'S') ] }
         let(:target) { other_user.username }
         let(:request) { game.get_player_by_user(user).hand.first.rank }
@@ -187,8 +187,18 @@ RSpec.describe 'games', type: :system do
             expect(page).to have_content("You took 2 #{request}s from #{target}")
           end
 
-          it 'does not display game response' do
-            expect(page).to have_no_css(".feed__bubble--game-response")
+          context 'when target still has cards' do
+            let(:player2_hand) { [ Card.new('A', 'D'), Card.new('A', 'S'), Card.new('10', 'S') ] }
+
+            it 'does not display game response' do
+              expect(page).to have_no_css(".feed__bubble--game-response")
+            end
+          end
+
+          context 'when taken cards leave target hand empty' do
+            it 'displays game message' do
+              expect(page).to have_content("#{user.username} drew a card")
+            end
           end
         end
 
@@ -215,6 +225,14 @@ RSpec.describe 'games', type: :system do
 
             it 'disables play round button' do
               expect(page).to have_button("Play Round", disabled: true)
+            end
+          end
+
+          context 'when deck is empty' do
+            let(:deck) { Deck.new([]) }
+
+            it ' displays empty deck message' do
+              expect(page).to have_content("deck is empty")
             end
           end
         end

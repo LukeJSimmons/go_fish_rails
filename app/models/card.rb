@@ -22,6 +22,12 @@ class Card
     value <=> other_card.value
   end
 
+  def self.from_json(json)
+    rank = json["rank"]
+    suit = json["suit"]
+    self.new(rank, suit)
+  end
+
   def as_json(*)
     {
       rank: rank,

@@ -1,13 +1,14 @@
 class RoundResult
-  attr_reader :target, :request, :current_player, :matching_cards, :drawn_card, :scored_books
+  attr_reader :target, :request, :current_player, :matching_cards, :fished_card, :scored_books, :drawn_cards
 
-  def initialize(current_player:, target:, request:, matching_cards:, drawn_card:, scored_books:)
+  def initialize(current_player:, target:, request:, matching_cards:, fished_card:, scored_books:, drawn_cards:)
     @current_player = current_player
     @target = target
     @request = request
     @matching_cards = matching_cards
-    @drawn_card = drawn_card
+    @fished_card = fished_card
     @scored_books = scored_books
+    @drawn_cards = drawn_cards
   end
 
   def player_action(recipient)
@@ -20,9 +21,14 @@ class RoundResult
   end
 
   def game_response(recipient)
-    return "#{subject(recipient)} drew a #{drawn_card.rank}" if drawn_card && recipient == current_player
-    return "#{subject(recipient)} drew a card" if drawn_card
+    return draw_card_message(recipient, fished_card) if fished_card
     "The deck is empty!" if matching_cards.empty?
+  end
+
+  def draw_card_message(recipient, card)
+    recipient == current_player ?
+    "#{subject(recipient)} drew a #{card.rank}" :
+    "#{subject(recipient)} drew a card" if card
   end
 
   def book_message(recipient, book)
@@ -30,17 +36,13 @@ class RoundResult
   end
 
   def self.from_json(json)
-    target = Player.from_json(json["target"])
-    request = json["request"]
+    target, request = Player.from_json(json["target"]), json["request"]
     current_player = Player.from_json(json["current_player"])
-    matching_cards = json["matching_cards"].map do |card_hash|
-      Card.new(card_hash["rank"], card_hash["suit"])
-    end
-    drawn_card = json["drawn_card"] == nil ? nil : Card.new(json["drawn_card"]["rank"], json["drawn_card"]["suit"])
-    scored_books = json["scored_books"].map do |book|
-      book.map { |card_hash| Card.new(card_hash["rank"], card_hash["suit"]) }
-    end
-    self.new(target:, request:, current_player:, matching_cards:, drawn_card:, scored_books:)
+    matching_cards = json["matching_cards"].map { |card_hash| Card.new(card_hash["rank"], card_hash["suit"]) }
+    fished_card = Card.from_json(json["fished_card"]) if json["fished_card"]
+    scored_books = json["scored_books"].map { |book| book.map { |card_hash| Card.new(card_hash["rank"], card_hash["suit"]) } }
+    drawn_cards = json["drawn_cards"]
+    self.new(target:, request:, current_player:, matching_cards:, fished_card:, scored_books:, drawn_cards:)
   end
 
   def as_json(*)
@@ -49,8 +51,9 @@ class RoundResult
       target: target,
       request: request,
       matching_cards: matching_cards.map(&:as_json),
-      drawn_card: drawn_card,
-      scored_books: scored_books
+      fished_card: fished_card.as_json,
+      scored_books: scored_books,
+      drawn_cards: drawn_cards
     }
   end
 
