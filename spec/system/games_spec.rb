@@ -220,6 +220,20 @@ RSpec.describe 'games', type: :system do
         end
       end
     end
+
+    context 'when the game is over' do
+      let!(:game) { create(:game, users: [ user ], go_fish:
+        GoFish.new(
+          [ Player.new(user.id, 'Player1', [], [ [ Card.new('A', 'H') ] ]),
+            Player.new(other_user.id, 'Player2', [], [ [ Card.new('J', 'H') ] ]) ],
+            Deck.new([])
+        )
+      ) }
+
+      it 'displays winner' do
+        expect(page).to have_content("#{game.winner.name} Wins")
+      end
+    end
   end
 
   private

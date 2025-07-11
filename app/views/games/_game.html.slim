@@ -1,4 +1,6 @@
 - if game.users.count == game.players_count
+  - if game.game_over?
+      span = "#{game.winner.name} Wins"
   .game 
     = render "games/players", game: game
     = render "games/feed", game: game

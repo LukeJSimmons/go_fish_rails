@@ -12,7 +12,7 @@ class Game < ApplicationRecord
   def start_if_possible!
     return unless users.count == players_count
     players = users.map { |user| Player.new(user.id, user.username) }
-    self.go_fish = GoFish.new(players)
+    self.go_fish = GoFish.new(players) unless go_fish
     go_fish.start!
     save!
   end
@@ -20,6 +20,14 @@ class Game < ApplicationRecord
   def play_round!(target, request)
     go_fish.play_round!(target, request)
     save!
+  end
+
+  def winner
+    go_fish.winner
+  end
+
+  def game_over?
+    go_fish.game_over?
   end
 
   def current_player
