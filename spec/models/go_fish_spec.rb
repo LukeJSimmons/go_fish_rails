@@ -181,4 +181,29 @@ RSpec.describe GoFish do
       end
     end
   end
+
+  describe '#game_over?' do
+    context 'when the deck is not empty' do
+      it 'returns false' do
+        expect(go_fish.game_over?).to eq false
+      end
+    end
+
+    context 'when the deck is empty but hands are not' do
+      let(:deck) { Deck.new([]) }
+      let(:player1_hand) { [ Card.new('A', 'H') ] }
+
+      it 'returns false' do
+        expect(go_fish.game_over?).to eq false
+      end
+    end
+
+    context 'when the deck and all hands are empty' do
+      let(:deck) { Deck.new([]) }
+
+      it 'returns true' do
+        expect(go_fish.game_over?).to eq true
+      end
+    end
+  end
 end

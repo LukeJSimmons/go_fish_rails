@@ -26,4 +26,19 @@ RSpec.describe Deck do
       expect(deck).to_not eq Deck.new
     end
   end
+
+  describe '#empty?' do
+    context 'when cards_left is 0' do
+      let(:deck) { Deck.new([]) }
+      it 'returns true' do
+        expect(deck.empty?).to eq true
+      end
+    end
+
+    context 'when cards_left is greater than 0' do
+      it 'returns false' do
+        expect(deck.empty?).to eq false
+      end
+    end
+  end
 end

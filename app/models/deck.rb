@@ -21,6 +21,10 @@ class Deck
     cards.shuffle!
   end
 
+  def empty?
+    cards.empty?
+  end
+
   def ==(other_deck)
     cards == other_deck.cards
   end

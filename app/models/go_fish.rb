@@ -41,6 +41,10 @@ class GoFish
     player_with_highest_rank_book
   end
 
+  def game_over?
+    deck.empty? && players.map(&:hand).all?(&:empty?)
+  end
+
 
   def self.from_json(json)
     players = json["players"].map do |player_hash|
