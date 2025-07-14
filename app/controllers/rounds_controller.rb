@@ -5,6 +5,7 @@ class RoundsController < ApplicationController
     return redirect_to game, error: "Invalid request" unless round_form.valid?
     target_player = game.go_fish.players.find { |player| player.name == params["round"]["target"] }
     game.play_round!(target_player, params["round"]["request"])
+    ActionCable.server.broadcast("game_channel", "round_played")
     redirect_to game
   end
 
