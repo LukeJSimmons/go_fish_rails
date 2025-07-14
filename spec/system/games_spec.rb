@@ -101,6 +101,26 @@ RSpec.describe 'games', type: :system do
       game.reload
     end
 
+    it 'can play a round' do
+      play_round
+      expect(page).to have_css(".feed__bubble")
+    end
+
+    it 'can play two rounds' do
+      2.times do
+        play_round
+        expect(page).to have_css(".feed__bubble")
+      end
+    end
+
+    it 'can play a full game' do
+      until game.game_over? do
+        play_round
+        expect(page).to have_css(".feed__bubble")
+      end
+      expect(page).to have_content(game.winner.name)
+    end
+
     describe 'players section' do
       before do
         game.get_player_by_user(user).books = [ [ Card.new('A', 'H') ] ]
@@ -278,5 +298,13 @@ RSpec.describe 'games', type: :system do
     fill_in "Name", with: name
     fill_in "Players count", with: players_count
     click_on "Create game"
+  end
+
+  def play_round
+    game.reload
+    login_as User.find(game.current_player.user_id)
+    page.driver.refresh
+    click_on "Play Round"
+    game.reload
   end
 end
