@@ -1,0 +1,17 @@
+.game-over {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .game-over__info {
+    display: grid;
+    gap: var(--op-space-medium);
+
+    text-align: center;
+  }
+
+  .game-over__title {
+    font-size: var(--op-font-x-large);
+  }
+}

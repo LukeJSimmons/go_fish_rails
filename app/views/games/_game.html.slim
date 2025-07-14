@@ -1,10 +1,10 @@
 - if game.users.count == game.players_count
   - if game.game_over?
-      span = "#{game.winner.name} Wins"
+      = render 'games/game_over', game: game
   .game 
     = render "games/players", game: game
     = render "games/feed", game: game
     = render "games/hand", game: game
     = render "games/books", game: game
 - else
-  span Waiting for players...
+  = render 'games/lobby', game: game

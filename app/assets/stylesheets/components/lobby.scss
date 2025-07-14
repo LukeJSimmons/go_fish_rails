@@ -1,0 +1,21 @@
+.lobby {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .lobby__info {
+    display: grid;
+    gap: var(--op-space-medium);
+
+    text-align: center;
+  }
+
+  .lobby__title {
+    font-size: var(--op-font-x-large);
+
+    &.lobby__title--bold {
+      font-weight: var(--op-font-weight-medium);
+    }
+  }
+}
