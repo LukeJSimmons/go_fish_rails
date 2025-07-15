@@ -3,20 +3,12 @@
   display: grid;
   grid-template-rows: 1fr auto;
 
-  .feed__output {
+  .feed__responses {
     display: flex;
     flex-direction: column;
     align-items: start;
     gap: var(--op-space-small);
     overflow: auto;
-
-    .feed__response-group {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: start;
-      gap: var(--op-space-small);
-    }
 
     .feed__response {
       width: 100%;

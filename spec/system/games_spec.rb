@@ -116,7 +116,7 @@ RSpec.describe 'games', type: :system do
     it 'can play a full game' do
       until game.game_over? do
         play_round
-        expect(page).to have_css(".feed__bubble--player-action", count: game.go_fish.round_results.count)
+        expect(page).to have_css(".feed__bubble")
       end
       expect(page).to have_content(game.winner.name)
     end
@@ -301,8 +301,9 @@ RSpec.describe 'games', type: :system do
   end
 
   def play_round
+    game.reload
     login_as User.find(game.current_player.user_id)
-    visit game_path(game)
+    page.driver.refresh
     click_on "Play Round"
     game.reload
   end

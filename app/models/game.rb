@@ -18,9 +18,8 @@ class Game < ApplicationRecord
   end
 
   def play_round!(target, request)
-    result = go_fish.play_round!(target, request)
+    go_fish.play_round!(target, request)
     save!
-    result
   end
 
   def winner
