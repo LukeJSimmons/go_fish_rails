@@ -1,5 +1,5 @@
 .game-page
-  = turbo_stream_from "games:#{@game.id}:users:#{current_user.id}"
+  = turbo_stream_from @game
   
   = turbo_frame_tag "#{dom_id(@game, current_user.id)}"
     = render @game, user: current_user

@@ -91,6 +91,8 @@ RSpec.describe 'games', type: :system do
   describe 'game view' do
     let!(:other_user) { create(:user) }
     let!(:game) { create(:game, users: [ user ]) }
+    let(:target) { other_user.username }
+    let(:request) { game.get_player_by_user(user).hand.first.rank }
 
     before do
       login_as other_user
@@ -119,6 +121,12 @@ RSpec.describe 'games', type: :system do
         expect(page).to have_css(".feed__bubble")
       end
       expect(page).to have_content(game.winner.name)
+    end
+
+    it 'updates game without refreshing', js: true do
+      visit game_path(game)
+      game.play_round!(target, request)
+      expect(page).to have_css(".feed__bubble")
     end
 
     describe 'players section' do

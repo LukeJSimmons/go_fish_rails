@@ -11,15 +11,7 @@ class Game < ApplicationRecord
 
   serialize :go_fish, coder: GoFish
 
-  after_update_commit -> {
-    users.each do |user|
-      Turbo::StreamsChannel.broadcast_update_to(
-        "games:#{id}:users:#{user.id}", # matches turbo_stream_from channel
-        target: dom_id(self, user.id), # matches turbo_frame id
-        partial: "games/game", locals: { game: self, user: user }
-      )
-    end
-  }
+  broadcasts_refreshes
 
   def start_if_possible!
     return unless users.count == players_count
