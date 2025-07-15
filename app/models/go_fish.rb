@@ -22,6 +22,7 @@ class GoFish
     drawn_cards = !deck.empty? && players.any? { |player| player.hand.empty? } ? Hash[*players.map { |player| [ player, player.add_card_to_hand(deck.draw_card) ] if player.hand.empty? }] : {}
     self.round_results << RoundResult.new(current_player:, target:, request:, matching_cards:, fished_card:, scored_books:, drawn_cards:)
     advance_round if matching_cards.empty? && fished_card&.rank != request
+    round_results.last
   end
 
   def current_player
