@@ -3,5 +3,5 @@
     span Books
   .panel__content
     .cards.cards--books 
-      - game.get_player_by_user(current_user).books.each do |book|
+      - game.get_player_by_user(user).books.each do |book|
         = image_tag "cards/#{book.first.rank}#{book.first.suit}.svg", class: "cards__card", alt: "#{book.first.rank}#{book.first.suit}"

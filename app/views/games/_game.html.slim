@@ -1,10 +1,10 @@
 - if game.users.count == game.players_count
   - if game.game_over?
       = render 'games/game_over', game: game
-  .game 
-    = render "games/players", game: game
-    = render "games/feed", game: game
-    = render "games/hand", game: game
-    = render "games/books", game: game
+  .game
+    = render "games/players", game: game, user: user
+    = render "games/feed", game: game, user: user
+    = render "games/hand", game: game, user: user
+    = render "games/books", game: game, user: user
 - else
   = render 'games/lobby', game: game

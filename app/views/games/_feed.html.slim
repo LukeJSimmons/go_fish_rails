@@ -7,16 +7,16 @@
       .feed__responses
         - game.go_fish.round_results.reverse.each do |round|
           .feed__bubble.feed__bubble--player-action
-            span = round.player_action(game.get_player_by_user(current_user))
+            span = round.player_action(game.get_player_by_user(user))
           .feed__response
             i.icon.ph.ph-arrow-elbow-down-right
             .feed__bubble.feed__bubble--player-response
-              span = round.player_response(game.get_player_by_user(current_user))
-          - if round.game_response(game.get_player_by_user(current_user))
+              span = round.player_response(game.get_player_by_user(user))
+          - if round.game_response(game.get_player_by_user(user))
             .feed__response
               i.icon.ph.ph-arrow-elbow-down-right
               .feed__bubble.feed__bubble--game-response
-                span = round.game_response(game.get_player_by_user(current_user))
+                span = round.game_response(game.get_player_by_user(user))
           - round.drawn_cards.each do |player, card|
             .feed__response
               i.icon.ph.ph-arrow-elbow-down-right
@@ -26,5 +26,5 @@
             .feed__response 
               i.icon.ph.ph-arrow-elbow-down-right 
               .feed__bubble.feed__bubble--book-message
-                span = round.book_message(game.get_player_by_user(current_user), book)
-      = render 'games/request-form', game: game
+                span = round.book_message(game.get_player_by_user(user), book)
+      = render 'games/request-form', game: game, user: user

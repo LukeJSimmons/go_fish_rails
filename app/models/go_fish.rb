@@ -16,6 +16,7 @@ class GoFish
   end
 
   def play_round!(target, request)
+    target = players.find { |player| player.name == target }
     matching_cards = take_matching_cards(target, request)
     fished_card = current_player.add_card_to_hand(deck.draw_card) if matching_cards.empty? && !deck.empty?
     scored_books = current_player.score_books_if_possible!

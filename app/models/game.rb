@@ -1,6 +1,8 @@
 require_relative "./player"
 
 class Game < ApplicationRecord
+  include ActionView::RecordIdentifier
+
   has_many :game_users, dependent: :destroy
   has_many :users, through: :game_users
 
@@ -8,6 +10,16 @@ class Game < ApplicationRecord
   validates :players_count, numericality: true
 
   serialize :go_fish, coder: GoFish
+
+  after_update_commit -> {
+    users.each do |user|
+      Turbo::StreamsChannel.broadcast_update_to(
+        "games:#{id}:users:#{user.id}", # matches turbo_stream_from channel
+        target: dom_id(self, user.id), # matches turbo_frame id
+        partial: "games/game", locals: { game: self, user: user }
+      )
+    end
+  }
 
   def start_if_possible!
     return unless users.count == players_count

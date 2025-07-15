@@ -46,7 +46,7 @@ RSpec.describe GoFish do
   describe '#play_round!' do
     let(:player1_hand) { [ Card.new('A', 'H') ] }
     let(:player2_hand) { [ Card.new('A', 'D') ] }
-    let(:target) { go_fish.opponents.first }
+    let(:target) { go_fish.opponents.first.name }
     let(:request) { go_fish.current_player.hand.first.rank }
 
     it 'adds round result to round results' do
