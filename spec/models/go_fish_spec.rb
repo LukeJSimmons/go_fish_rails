@@ -4,7 +4,7 @@ RSpec.describe GoFish do
   let(:player2_hand) { [] }
   let(:player1) { Player.new(0, 'Player 1', player1_hand) }
   let(:player2) { Player.new(1, 'Player 2', player2_hand) }
-  let(:go_fish) { GoFish.new([ player1, player2 ], deck) }
+  let(:go_fish) { GoFish.new(players: [ player1, player2 ], deck:) }
   it 'has a deck' do
     expect(go_fish).to respond_to :deck
     expect(go_fish.deck).to be_a Deck

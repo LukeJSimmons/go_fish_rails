@@ -320,9 +320,9 @@ RSpec.describe 'games', type: :system do
     context 'when the game is over' do
       let!(:game) { create(:game, users: [ user ], go_fish:
         GoFish.new(
-          [ Player.new(user.id, 'Player1', [], [ [ Card.new('A', 'H') ] ]),
+          players: [ Player.new(user.id, 'Player1', [], [ [ Card.new('A', 'H') ] ]),
             Player.new(other_user.id, 'Player2', [], [ [ Card.new('J', 'H') ] ]) ],
-            Deck.new([])
+            deck: Deck.new([])
         )
       ) }
 

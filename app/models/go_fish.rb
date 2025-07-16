@@ -3,9 +3,10 @@ class GoFish
 
   BASE_HAND_SIZE = 7
 
-  def initialize(players = [], deck = Deck.new, round = 0, round_results = [])
+  def initialize(players: [], bots: [], deck: Deck.new, round: 0, round_results: [])
     @deck = deck
     @players = players
+    @bots = bots
     @round = round
     @round_results = round_results
   end
@@ -50,8 +51,9 @@ class GoFish
   def self.from_json(json)
     players = json["players"].map { |player_hash| Player.from_json(player_hash) }
     deck = Deck.new(json["deck"]["cards"].map { |card_hash| Card.new(card_hash["rank"], card_hash["suit"]) })
+    round = json["round"]
     round_results = json["round_results"].map { |result_hash| RoundResult.from_json(result_hash) }
-    self.new(players, deck, json["round"], round_results)
+    self.new(players:, deck:, round:, round_results:)
   end
 
   def self.load(json)

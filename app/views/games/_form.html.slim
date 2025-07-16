@@ -1,7 +1,7 @@
 = simple_form_for [ game ], html: { class: "game-row game-row--form" } do |form|
   = form.input :name, type: "text"
   = form.input :players_count, type: "number"
-  = form.input :bots_count, type: "number"
+  = form.input :bots_count, type: "number", input_html: { value: 0 }
   .game-row__actions
     = form.submit class: "btn btn--primary"
     = link_to "Back", games_path, class: "btn"
