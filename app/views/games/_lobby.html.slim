@@ -1,5 +1,5 @@
 .lobby
   .lobby__info
     span.lobby__title Waiting for players...
-    span.lobby__title.lobby__title--bold = "#{game.users.count}/#{game.players_count}"
+    span.lobby__title.lobby__title--bold = "#{game.users.count + game.bots_count}/#{game.players_count + game.bots_count}"
     = link_to "Back to Games", games_path, class: "btn", data: { turbo_frame: "_top" }

@@ -1,5 +1,6 @@
 class GameUsersController < ApplicationController
   def create
+    return redirect_to games_path if Game.find(params["game_id"]).users.count == Game.find(params["game_id"]).players_count
     @game_user = GameUser.new(game_user_params)
     @game_user.game.users << @game_user.user
     @game_user.game.start_if_possible!

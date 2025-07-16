@@ -59,6 +59,26 @@ RSpec.describe 'games', type: :system do
         click_on "Join", match: :first
         expect(page).to have_content("2/2")
       end
+
+      context 'when the game is full' do
+        let!(:game) { create(:game, users: [ user ], players_count: 1) }
+
+        it 'does not join the game' do
+          expect(page).to have_content("Join")
+          click_on "Join", match: :first
+          expect(page).to have_content("All Games")
+        end
+      end
+    end
+
+    context 'when there are bots' do
+      let!(:game) { create(:game, users: [ user ], bots_count: 2) }
+
+      it 'shows total joined players and bots' do
+        visit games_path
+        click_on "Play", match: :first
+        expect(page).to have_content("3/4")
+      end
     end
   end
 
@@ -142,6 +162,19 @@ RSpec.describe 'games', type: :system do
         game.play_round!(target, request)
 
         expect(page).to have_css(".feed__bubble")
+      end
+    end
+
+    context 'when there are bots' do
+      let!(:game) { create(:game, users: [ user ], bots_count: 1) }
+
+      it 'can play a round' do
+        play_round
+        expect(page).to have_css(".feed__bubble")
+      end
+
+      it 'displays bots in players' do
+        expect(page).to have_css(".player", count: 2)
       end
     end
 
