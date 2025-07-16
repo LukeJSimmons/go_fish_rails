@@ -23,6 +23,17 @@ RSpec.describe 'games', type: :system do
       click_on "Create game"
       expect(page).to have_content("Gamey game")
     end
+
+    context 'when creating a game with bots' do
+      it 'creates a game' do
+        click_on "New game"
+        fill_in "Name", with: "Gamey game"
+        fill_in "Players count", with: 2
+        fill_in "Bots count", with: 2
+        click_on "Create game"
+        expect(page).to have_content("Gamey game")
+      end
+    end
   end
 
   describe 'showing a game' do
