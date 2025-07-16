@@ -2,6 +2,8 @@ require 'rails_helper'
 include Warden::Test::Helpers
 
 RSpec.describe 'games', type: :system do
+  include ActiveJob::TestHelper
+
   let!(:user) { create(:user) }
 
   before do
@@ -124,9 +126,12 @@ RSpec.describe 'games', type: :system do
     end
 
     it 'updates game without refreshing', js: true do
-      visit game_path(game)
-      game.play_round!(target, request)
-      expect(page).to have_css(".feed__bubble")
+      perform_enqueued_jobs do
+        visit game_path(game)
+        game.play_round!(target, request)
+
+        expect(page).to have_css(".feed__bubble")
+      end
     end
 
     describe 'players section' do
@@ -158,6 +163,23 @@ RSpec.describe 'games', type: :system do
       it 'does not display opponent hand' do
         game.get_player_by_user(user).hand.each do |card|
           expect(page).to have_no_css("img[alt*='#{card.rank}#{card.suit}']")
+        end
+      end
+
+      describe 'sort' do
+        let(:player1_hand) { [ Card.new('2', 'H'), Card.new('Q', 'C'), Card.new('10', 'H') ] }
+
+        before do
+          game.get_player_by_user(other_user).hand = player1_hand
+          game.save!
+          visit game_path(game)
+        end
+
+        fit 'sorts the hand by value', js: true do
+          sorted_hand = [ Card.new('2', 'H'), Card.new('10', 'H'), Card.new('Q', 'C') ]
+          expect(player1_hand).to_not eq sorted_hand
+          click_on 'Sort'
+          expect(player1_hand).to eq sorted_hand
         end
       end
     end
