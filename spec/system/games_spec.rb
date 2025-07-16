@@ -167,7 +167,7 @@ RSpec.describe 'games', type: :system do
       end
 
       describe 'sort' do
-        let(:player1_hand) { [ Card.new('2', 'H'), Card.new('Q', 'C'), Card.new('10', 'H') ] }
+        let(:player1_hand) { [ Card.new('10', 'H'), Card.new('2', 'H'), Card.new('Q', 'C') ] }
 
         before do
           game.get_player_by_user(other_user).hand = player1_hand
@@ -175,11 +175,11 @@ RSpec.describe 'games', type: :system do
           visit game_path(game)
         end
 
-        fit 'sorts the hand by value', js: true do
+        it 'sorts the hand by value', js: true do
           sorted_hand = [ Card.new('2', 'H'), Card.new('10', 'H'), Card.new('Q', 'C') ]
-          expect(player1_hand).to_not eq sorted_hand
-          click_on 'Sort'
-          expect(player1_hand).to eq sorted_hand
+          expect(page.find('#hand :first-child')['data-value']).to_not eq "#{sorted_hand.first.value}"
+          click_on 'Rank'
+          expect(page.find('#hand :first-child')['data-value']).to eq "#{sorted_hand.first.value}"
         end
       end
     end
