@@ -16,6 +16,12 @@
     padding: var(--op-space-x-small);
 
     box-shadow: inset var(--op-border-top) var(--op-color-border);
+
+    .panel__header-group {
+      display: flex;
+      align-items: center;
+      gap: var(--op-space-small);
+    }
   }
 
   .panel__content {

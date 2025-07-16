@@ -1,9 +1,11 @@
 .panel.panel--hand data-controller="hand"
   .panel__header 
     span Hand
-    .btn-group
-      button.btn data-action="hand#sort_by_rank" Rank
-      button.btn data-action="hand#sort_by_suit" Suit
+    .panel__header-group
+      span Sort by
+      .btn-group
+        button.btn data-action="hand#sort_by_rank" Rank
+        button.btn data-action="hand#sort_by_suit" Suit
   .panel__content.panel__content--h-scroll
     .cards data-hand-target="cards"
       - game.get_player_by_user(user).hand.each do |card|
