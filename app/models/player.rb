@@ -2,10 +2,10 @@ class Player
   attr_accessor :hand, :books
   attr_reader :user_id, :name
 
-  def initialize(user_id, name, hand = [], books = [])
+  def initialize(name, user_id = -1, hand = [], books = [])
+    @name = name
     @user_id = user_id
     @hand = hand
-    @name = name
     @books = books
   end
 
@@ -27,21 +27,21 @@ class Player
 
 
   def self.from_json(json)
-    user_id = json["user_id"]
     name = json["name"]
+    user_id = json["user_id"]
     hand = json["hand"].map do |card_hash|
        Card.new(card_hash["rank"], card_hash["suit"])
      end
     books = json["books"].map do |book|
       book.map { |card_hash| Card.new(card_hash["rank"], card_hash["suit"]) }
     end
-    self.new(user_id, name, hand, books)
+    self.new(name, user_id, hand, books)
   end
 
   def as_json(*)
     {
-      user_id: user_id,
       name: name,
+      user_id: user_id,
       hand: hand,
       books: books
     }

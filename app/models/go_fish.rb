@@ -3,10 +3,9 @@ class GoFish
 
   BASE_HAND_SIZE = 7
 
-  def initialize(players: [], bots: [], deck: Deck.new, round: 0, round_results: [])
+  def initialize(players: [], deck: Deck.new, round: 0, round_results: [])
     @deck = deck
     @players = players
-    @bots = bots
     @round = round
     @round_results = round_results
   end
@@ -23,7 +22,7 @@ class GoFish
     scored_books = current_player.score_books_if_possible!
     drawn_cards = !deck.empty? && players.any? { |player| player.hand.empty? } ? Hash[*players.map { |player| [ player, player.add_card_to_hand(deck.draw_card) ] if player.hand.empty? }] : {}
     self.round_results << RoundResult.new(current_player:, target:, request:, matching_cards:, fished_card:, scored_books:, drawn_cards:)
-    advance_round if matching_cards.empty? && fished_card&.rank != request
+    advance_round if (matching_cards.empty? && fished_card&.rank != request) || current_player.hand.empty?
   end
 
   def current_player
@@ -36,6 +35,8 @@ class GoFish
 
   def advance_round
     self.round += 1
+    self.round += 1 if current_player.hand.empty?
+    play_bot_rounds if current_player.is_a? Bot
   end
 
   def winner
@@ -49,7 +50,7 @@ class GoFish
 
 
   def self.from_json(json)
-    players = json["players"].map { |player_hash| Player.from_json(player_hash) }
+    players = json["players"].map { |player_hash| player_hash["user_id"] == -1 ? Bot.from_json(player_hash) : Player.from_json(player_hash) }
     deck = Deck.new(json["deck"]["cards"].map { |card_hash| Card.new(card_hash["rank"], card_hash["suit"]) })
     round = json["round"]
     round_results = json["round_results"].map { |result_hash| RoundResult.from_json(result_hash) }
@@ -104,5 +105,14 @@ class GoFish
       player.books.map(&:first).map(&:value).max
     end
     players[players_highest_books.find_index(players_highest_books.max)]
+  end
+
+  def play_bot_rounds
+    return if current_player.hand.empty?
+    play_bot_round until current_player.instance_of? Player
+  end
+
+  def play_bot_round
+    play_round!(opponents.sample.name, current_player.request)
   end
 end

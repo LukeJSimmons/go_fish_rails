@@ -1,6 +1,6 @@
 RSpec.describe RoundResult do
-  let(:current_player) { Player.new(0, 'Player 1') }
-  let(:target) { Player.new(1, 'Player 2') }
+  let(:current_player) { Player.new('Player 1', 0) }
+  let(:target) { Player.new('Player 2', 1) }
   let(:request) { "A" }
   let(:matching_cards) { [] }
   let(:fished_card) { nil }

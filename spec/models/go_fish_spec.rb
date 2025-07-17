@@ -30,8 +30,20 @@ RSpec.describe GoFish do
         go_fish.advance_round
       end
 
-      it 'returns player at current_player_index' do
-        expect(go_fish.current_player).to eq go_fish.players[1]
+      context 'when next players hand is not empty' do
+        let(:player2_hand) { [ Card.new('A', 'H') ] }
+
+        it 'returns player at current_player_index' do
+          expect(go_fish.current_player).to eq go_fish.players[1]
+        end
+      end
+
+      context 'when next players hand is empty' do
+        let(:player2_hand) { [] }
+
+        it 'skips the next player' do
+          expect(go_fish.current_player).to eq go_fish.players.first
+        end
       end
     end
   end

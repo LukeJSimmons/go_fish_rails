@@ -1,13 +1,18 @@
-class Bot
+class Bot < Player
   attr_reader :name
 
-  def initialize
-    @name = generate_name
+  @@number_of_bots ||= 0
+
+  def request
+    hand.sample.rank
   end
 
-  private
+  def self.generate_name
+    @@number_of_bots += 1
+    "Bot #{@@number_of_bots}"
+  end
 
-  def generate_name
-    "Bot"
+  def self.number_of_bots=(number)
+    @@number_of_bots = 0
   end
 end

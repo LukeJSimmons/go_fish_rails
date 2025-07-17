@@ -60,6 +60,15 @@ RSpec.describe 'games', type: :system do
         expect(page).to have_content("2/2")
       end
 
+      it 'keeps the game leader the same' do
+        expect(page).to have_content("Join")
+        click_on "Join", match: :first
+        expect(page).to have_content("2/2")
+        find(".ph-arrow-left").click
+        expect(page).to_not have_button("Delete")
+        expect(page).to_not have_button("Edit")
+      end
+
       context 'when the game is full' do
         let!(:game) { create(:game, users: [ user ], players_count: 1) }
 
@@ -121,6 +130,29 @@ RSpec.describe 'games', type: :system do
     end
   end
 
+  describe 'solo game against bots' do
+      let!(:game) { create(:game, users: [ user ], players_count: 1, bots_count: 1) }
+
+      before do
+        game.start_if_possible!
+        login_as user
+        visit game_path(game)
+      end
+
+      it 'can play a round' do
+        play_round
+        expect(page).to have_css(".feed__bubble")
+      end
+
+      it 'can play a full game' do
+        until game.game_over? do
+          play_round
+          expect(page).to have_css(".feed__bubble")
+        end
+        expect(page).to have_content(game.winner.name)
+      end
+    end
+
   describe 'game view' do
     let!(:other_user) { create(:user) }
     let!(:game) { create(:game, users: [ user ]) }
@@ -171,6 +203,14 @@ RSpec.describe 'games', type: :system do
       it 'can play a round' do
         play_round
         expect(page).to have_css(".feed__bubble")
+      end
+
+      it 'can play a full game' do
+        until game.game_over? do
+          play_round
+          expect(page).to have_css(".feed__bubble")
+        end
+        expect(page).to have_content(game.winner.name)
       end
 
       it 'displays bots in players' do
@@ -353,8 +393,8 @@ RSpec.describe 'games', type: :system do
     context 'when the game is over' do
       let!(:game) { create(:game, users: [ user ], go_fish:
         GoFish.new(
-          players: [ Player.new(user.id, 'Player1', [], [ [ Card.new('A', 'H') ] ]),
-            Player.new(other_user.id, 'Player2', [], [ [ Card.new('J', 'H') ] ]) ],
+          players: [ Player.new('Player1', user.id, [], [ [ Card.new('A', 'H') ] ]),
+            Player.new('Player2', other_user.id, [], [ [ Card.new('J', 'H') ] ]) ],
             deck: Deck.new([])
         )
       ) }
@@ -377,7 +417,7 @@ RSpec.describe 'games', type: :system do
   def play_round
     game.reload
     login_as User.find(game.current_player.user_id)
-    page.driver.refresh
+    visit game_path(game)
     click_on "Play Round"
     game.reload
   end
