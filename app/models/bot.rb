@@ -12,7 +12,7 @@ class Bot < Player
     "Bot #{@@number_of_bots}"
   end
 
-  def self.number_of_bots=(number)
+  def self.reset_number_of_bots
     @@number_of_bots = 0
   end
 end

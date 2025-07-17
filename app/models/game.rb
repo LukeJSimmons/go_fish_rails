@@ -17,7 +17,7 @@ class Game < ApplicationRecord
   def start_if_possible!
     return unless users.count == players_count
     players = users.map { |user| Player.new(user.username, user.id) }
-    players += Array.new(bots_count, Bot.new(Bot.generate_name))
+    players += bots_count.times.each_with_index.map { |bot, index| Bot.new("Bot #{index+1}") }
     self.go_fish = GoFish.new(players:) unless go_fish
     go_fish.start!
     save!

@@ -14,9 +14,15 @@ RSpec.describe Bot do
   end
 
   describe '#generate_name' do
+    let(:second_bot) { Bot.new(Bot.generate_name) }
+
+    before(:all) {
+      Bot.reset_number_of_bots
+    }
+
     it 'returns name with unique index' do
-      Bot.number_of_bots = 0
-      expect(Bot.generate_name).to eq "Bot 1"
+      expect(bot.name).to eq "Bot 1"
+      expect(second_bot.name).to eq "Bot 2"
     end
   end
 end
