@@ -20,7 +20,7 @@ class GoFish
     matching_cards = take_matching_cards(target, request)
     fished_card = current_player.add_card_to_hand(deck.draw_card) if matching_cards.empty? && !deck.empty?
     scored_books = current_player.score_books_if_possible!
-    drawn_cards = !deck.empty? && players.any? { |player| player.hand.empty? } ? Hash[*players.map { |player| [ player, player.add_card_to_hand(deck.draw_card) ] if player.hand.empty? }] : {}
+    drawn_cards = !deck.empty? && players.any? { |player| player.hand.empty? } ? draw_cards_if_needed : {}
     self.round_results << RoundResult.new(current_player:, target:, request:, matching_cards:, fished_card:, scored_books:, drawn_cards:)
     advance_round if (matching_cards.empty? && fished_card&.rank != request) || current_player.hand.empty?
   end
@@ -90,6 +90,12 @@ class GoFish
     matching_cards
   end
 
+  def draw_cards_if_needed
+    players_with_empty_hands = players.select { |player| player.hand.empty? }
+    players_drawn_cards = players_with_empty_hands.map { |player| [ player, player.add_card_to_hand(deck.draw_card) ] }
+    Hash[players_drawn_cards]
+  end
+
   def tie?
     total_books = players.map(&:books).map(&:count)
     total_books.all? { |books_count| books_count == total_books.first }
@@ -113,6 +119,8 @@ class GoFish
   end
 
   def play_bot_round
-    play_round!(opponents.sample.name, current_player.request)
+    return advance_round if current_player.hand.empty?
+    target = opponents.sample
+    play_round!(target.name, current_player.request(target))
   end
 end

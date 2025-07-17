@@ -216,6 +216,23 @@ RSpec.describe 'games', type: :system do
       it 'displays bots in players' do
         expect(page).to have_css(".player", count: 2)
       end
+
+      context 'when bot difficulty is 2' do
+        let!(:game) { create(:game, users: [ user ], bots_count: 1, bot_difficulty: 2) }
+
+        it 'can play a round' do
+          play_round
+          expect(page).to have_css(".feed__bubble")
+        end
+
+        it 'can play a full game' do
+          until game.game_over? do
+            play_round
+            expect(page).to have_css(".feed__bubble")
+          end
+          expect(page).to have_content(game.winner.name)
+        end
+      end
     end
 
     describe 'players section' do
