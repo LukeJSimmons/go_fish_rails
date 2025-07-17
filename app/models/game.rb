@@ -9,6 +9,7 @@ class Game < ApplicationRecord
   validates :name, presence: true
   validates :players_count, numericality: true
   validates :bots_count, numericality: true
+  validates :bot_difficulty, numericality: true
 
   serialize :go_fish, coder: GoFish
 
@@ -17,7 +18,7 @@ class Game < ApplicationRecord
   def start_if_possible!
     return unless users.count == players_count
     players = users.map { |user| Player.new(user.username, user.id) }
-    players += bots_count.times.each_with_index.map { |bot, index| Bot.new("Bot #{index+1}") }
+    players += bots_count.times.each_with_index.map { |bot, index| Bot.new("Bot #{index+1}", bot_difficulty) }
     self.go_fish = GoFish.new(players:) unless go_fish
     go_fish.start!
     save!

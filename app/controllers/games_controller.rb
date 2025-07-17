@@ -46,6 +46,6 @@ class GamesController < ApplicationController
   private
 
   def game_params
-    params.require(:game).permit(:name, :players_count, :bots_count)
+    params.require(:game).permit(:name, :players_count, :bots_count, :bot_difficulty)
   end
 end
