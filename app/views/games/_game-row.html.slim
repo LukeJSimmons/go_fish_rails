@@ -3,7 +3,7 @@
     span = game.name 
     span = "#{game.users.count}/#{game.players_count}"
   .game-row__actions
-    - if game.users.first == current_user
+    - if game.game_users.first.user == current_user
       = button_to "Delete", game, method: :delete, class: "btn btn--destructive", data: { turbo_confirm: "Are you sure?" }
       = link_to "Edit", edit_game_path(game), class: "btn"
     
