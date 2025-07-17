@@ -2,7 +2,7 @@
   = form.input :name, type: "text"
   = form.input :players_count, type: "number"
   = form.input :bots_count, type: "number", input_html: { value: 0 }
-  = form.input :bot_difficulty, type: "number", input_html: { value: 0 }
+  = form.input :bot_difficulty, collection: {'Easy' => 0, 'Hard' => 2}, include_blank: false
   .game-row__actions
     = form.submit class: "btn btn--primary"
     = link_to "Back", games_path, class: "btn"
