@@ -4,11 +4,17 @@
     span = "#{game.users.count}/#{game.players_count}"
   .game-row__actions
     - if game.game_users.first.user == current_user
-      = button_to "Delete", game, method: :delete, class: "btn btn--destructive", data: { turbo_confirm: "Are you sure?" }
-      = link_to "Edit", edit_game_path(game), class: "btn"
+      = button_to game, method: :delete, class: "btn btn--destructive", data: { turbo_confirm: "Are you sure?" }, alt: "Delete"
+        span Delete
+        i.icon.ph.ph-trash
+      = link_to edit_game_path(game), class: "btn", alt: "Edit"
+        span Edit
+        i.icon.ph.ph-pencil-simple
     
     - if game.users.include? current_user
-      = link_to "Play", game, class: "btn btn--primary"
+      = link_to game, class: "btn btn--primary"
+        span Play
+        i.icon.ph.ph-play
     - else 
-      = button_to "Join", game_users_path, class: "btn", params: { game_id: game, user_id: current_user}
+      = button_to "Join", game_users_path, class: "btn", params: { game_id: game, user_id: current_user}, alt: "Play"
 = render 'games/confirm'

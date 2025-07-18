@@ -2,9 +2,9 @@
 .app-with-sidebar
   .sidebar.sidebar--home
     .sidebar__brand 
-      i.icon.icon--x-large.ph.ph-fish
-      span Go Fish
-      i.icon.icon--x-large.ph.ph-fish
+      span GoFish
+      br
+      span The Logo
     .sidebar__content
       span.btn
         i.icon.icon--x-large.ph.ph-game-controller
@@ -18,7 +18,9 @@
       .games__content
         .game-row.game-row--header
           span Games
-          = link_to "New game", new_game_path, class: "btn btn--primary"
+          a.btn.btn--primary href=new_game_path
+            i.icon.ph.ph-plus
+            span New Game
     
     section.games__section
       span.games__header Your Games

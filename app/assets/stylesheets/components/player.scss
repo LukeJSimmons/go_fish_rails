@@ -7,9 +7,20 @@
     box-shadow: var(--op-border-all) var(--op-color-primary-plus-four);
     padding: var(--op-space-small);
     padding-right: var(--op-space-large);
+
+    .accordion__marker {
+      padding: var(--op-space-2x-small);
+      border-radius: var(--op-radius-circle);
+      transition: 0.1s;
+
+      &:hover {
+        box-shadow: var(--op-border-all) var(--op-color-primary-plus-three);
+      }
+    }
   }
 
   .player__label {
+    padding-left: var(--op-space-2x-small);
     &.player__label--bold {
       font-weight: var(--op-font-weight-bold);
     }
@@ -30,6 +41,11 @@
   &[open] {
     summary {
       background-color: var(--op-color-primary-plus-six);
+
+      .accordion__marker {
+        box-shadow: var(--op-border-all) var(--op-color-primary-plus-three);
+        background-color: var(--op-color-primary-plus-five);
+      }
     }
   }
 }

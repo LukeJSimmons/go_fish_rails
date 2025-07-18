@@ -1,10 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Finger+Paint&display=swap');
+
 .sidebar.sidebar--home {
+  padding: var(--op-space-large);
+  gap: var(--op-space-x-large);
   text-align: center;
+
+  .sidebar__brand {
+    font-family: 'Finger Paint';
+    font-size: var(--op-font-3x-large);
+  }
 
   .sidebar__content {
     &.sidebar__content--end {
       padding: var(--op-space-large);
       gap: var(--op-space-large);
+    }
+
+    .btn {
+      box-shadow: none;
+
+      &:hover {
+        background-color: var(--op-color-primary-plus-five);
+        box-shadow: var(--op-border-all) var(--op-color-primary-plus-three);
+      }
     }
   }
 }

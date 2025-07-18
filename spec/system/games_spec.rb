@@ -13,11 +13,11 @@ RSpec.describe 'games', type: :system do
 
   describe 'creating a new game' do
     it 'has a new game button' do
-      expect(page).to have_content("New game")
+      expect(page).to have_content("New Game")
     end
 
     it 'creates a game' do
-      click_on "New game"
+      click_on "New Game"
       fill_in "Name", with: "Gamey game"
       fill_in "Players count", with: 2
       click_on "Create game"
@@ -26,7 +26,7 @@ RSpec.describe 'games', type: :system do
 
     context 'when creating a game with bots' do
       it 'creates a game' do
-        click_on "New game"
+        click_on "New Game"
         fill_in "Name", with: "Gamey game"
         fill_in "Players count", with: 2
         fill_in "Bots count", with: 2
@@ -425,7 +425,7 @@ RSpec.describe 'games', type: :system do
   private
 
   def create_game(name, players_count)
-    click_on "New game"
+    click_on "New Game"
     fill_in "Name", with: name
     fill_in "Players count", with: players_count
     click_on "Create game"
