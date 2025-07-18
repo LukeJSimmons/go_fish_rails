@@ -1,15 +1,17 @@
 = turbo_stream_from "games"
 .app-with-sidebar
-  .sidebar
+  .sidebar.sidebar--home
     .sidebar__brand 
-      span Go Fish The Logo
+      i.icon.icon--x-large.ph.ph-fish
+      span Go Fish
+      i.icon.icon--x-large.ph.ph-fish
     .sidebar__content
       span.btn
-        i.icon.icon--x-large.ph.ph-joystick
+        i.icon.icon--x-large.ph.ph-game-controller
         span Games
     .sidebar__content.sidebar__content--end
       .divider
-      = current_user.username
+      span = "Welcome #{current_user.username}"
       = button_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn--destructive"
   .app__content.games
     section.games__section

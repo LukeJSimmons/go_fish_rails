@@ -35,7 +35,7 @@ class GoFish
 
   def advance_round
     self.round += 1
-    return self.round += 1 until current_player.hand.any? if current_player.hand.empty?
+    self.round += 1 until current_player.hand.any? || players.all? { |player| player.hand.empty? }
     play_bot_rounds if current_player.is_a? Bot
   end
 
@@ -114,7 +114,7 @@ class GoFish
   end
 
   def play_bot_rounds
-    play_bot_round until current_player.instance_of? Player
+    play_bot_round until (current_player.instance_of? Player) || players.all? { |player| player.hand.empty? }
   end
 
   def play_bot_round

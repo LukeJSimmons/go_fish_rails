@@ -14,10 +14,9 @@ class GamesController < ApplicationController
 
     if @game.save
       @game.start_if_possible!
-      redirect_to games_path
-    else
-      render new_game_path, status: :unprocessable_entity
+      return redirect_to games_path
     end
+    render new_game_path, status: :unprocessable_entity
   end
 
   def show

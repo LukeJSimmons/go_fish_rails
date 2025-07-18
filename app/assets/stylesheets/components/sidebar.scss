@@ -1,0 +1,10 @@
+.sidebar.sidebar--home {
+  text-align: center;
+
+  .sidebar__content {
+    &.sidebar__content--end {
+      padding: var(--op-space-large);
+      gap: var(--op-space-large);
+    }
+  }
+}

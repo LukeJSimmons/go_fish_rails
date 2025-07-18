@@ -39,6 +39,7 @@ RSpec.describe GoFish do
       end
 
       context 'when next players hand is empty' do
+        let(:player1_hand) { [ Card.new('A', 'H') ] }
         let(:player2_hand) { [] }
 
         it 'skips the next player' do
