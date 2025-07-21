@@ -15,8 +15,10 @@
       .divider
       = link_to "Signed in as #{current_user.username}", edit_user_registration_path, class: "btn"
       = button_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn--destructive"
-  .app__content
-    table.table 
+  .app__content.stats
+    .stats__title Stats
+    span Players
+    table.table.table--primary
       thead 
         tr 
           th Name 
@@ -30,5 +32,24 @@
             th = user.username
             th = user.total_games
             th = user.total_wins
-            th = Time.at((current_user.time_played)).utc.strftime("%H:%M:%S")
-            th = "#{(user.total_wins / user.total_games)}%"
+            th = Time.at((user.time_played)).utc.strftime("%H:%M:%S")
+            th = "#{user.total_wins / (user.total_games == 0 ? 1 : user.total_games)}%"
+    span Games
+    table.table.table--primary
+      thead 
+        tr 
+          th Name 
+          th Players 
+          th Bots
+          th Bot Difficulty
+          th Winner
+          th Rounds
+      tbody 
+        - current_user.games.each do |game|
+          tr 
+            th = game.name
+            th = game.players_count
+            th = game.bots_count
+            th = game.bot_difficulty
+            th = game.go_fish.winner.name
+            th = game.go_fish.round_results.count
