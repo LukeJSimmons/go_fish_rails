@@ -1,4 +1,3 @@
-= turbo_stream_from "games"
 .app-with-sidebar
   .sidebar.sidebar--home
     .sidebar__brand 
@@ -16,22 +15,15 @@
       .divider
       = link_to "Signed in as #{current_user.username}", edit_user_registration_path, class: "btn"
       = button_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn--destructive"
-  .app__content.games
-    section.games__section
-      .games__content
-        .game-row.game-row--header
-          span Games
-          a.btn.btn--primary href=new_game_path
-            i.icon.ph.ph-plus
-            span New Game
-    
-    section.games__section
-      span.games__header Your Games
-      .games__content
-        - @your_games.each do |game|
-          = render 'game-row', game: game
-    
-    section.games__section
-      span.games__header All Games
-      - @all_games.each do |game|
-        = render 'game-row', game: game, user: current_user
+  table.app__content.table 
+    thead 
+      tr 
+        th Name 
+        th Total Games 
+        th Total Wins 
+    tbody 
+      - @users.each do |user|
+        tr 
+          th = user.username
+          th = user.total_games
+          th = user.total_wins

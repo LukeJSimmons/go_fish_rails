@@ -17,6 +17,7 @@ class Game < ApplicationRecord
 
   def start_if_possible!
     return unless users.count == players_count
+    users.map { |user| user.add_game }
     players = users.map { |user| Player.new(user.username, user.id) }
     players += bots_count.times.each_with_index.map { |bot, index| Bot.new("Bot #{index+1}", bot_difficulty) }
     self.go_fish = GoFish.new(players:) unless go_fish
@@ -30,6 +31,7 @@ class Game < ApplicationRecord
   end
 
   def winner
+    User.find(go_fish.winner.user_id).add_win if go_fish.winner.instance_of? Player
     go_fish.winner
   end
 
