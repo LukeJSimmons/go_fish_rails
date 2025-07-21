@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_21_140709) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_21_144558) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -44,7 +44,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_140709) do
     t.string "username", null: false
     t.integer "total_games", default: 0
     t.integer "total_wins", default: 0
-    t.float "time_played"
+    t.float "time_played", default: 0.0
+    t.datetime "last_seen_at", default: "2025-07-21 14:53:55"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

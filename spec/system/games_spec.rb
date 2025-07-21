@@ -41,7 +41,9 @@ RSpec.describe 'games', type: :system do
 
     it 'shows the game page' do
       visit games_path
-      click_on "Play", match: :first
+      within '.game-row__actions', match: :first do
+        click_on "Play"
+      end
       expect(page).to have_content("Waiting for players...")
     end
 
@@ -85,7 +87,9 @@ RSpec.describe 'games', type: :system do
 
       it 'shows total joined players and bots' do
         visit games_path
-        click_on "Play", match: :first
+        within '.game-row__actions', match: :first do
+          click_on "Play"
+        end
         expect(page).to have_content("3/4")
       end
     end

@@ -15,4 +15,17 @@ class User < ApplicationRecord
     self.total_wins += 1
     save!
   end
+
+  ActivityThreshold = 5.minutes
+
+  def active_now!
+    time_since_last_activity = [ Time.now - last_seen_at, 0 ].max
+
+    if time_since_last_activity <= ActivityThreshold
+      self.time_played += time_since_last_activity
+    end
+
+    self.last_seen_at = Time.now
+    save!
+  end
 end

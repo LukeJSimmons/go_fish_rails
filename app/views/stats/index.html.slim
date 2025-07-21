@@ -15,15 +15,20 @@
       .divider
       = link_to "Signed in as #{current_user.username}", edit_user_registration_path, class: "btn"
       = button_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn--destructive"
-  table.app__content.table 
-    thead 
-      tr 
-        th Name 
-        th Total Games 
-        th Total Wins 
-    tbody 
-      - @users.each do |user|
+  .app__content
+    table.table 
+      thead 
         tr 
-          th = user.username
-          th = user.total_games
-          th = user.total_wins
+          th Name 
+          th Total Games 
+          th Total Wins 
+          th Time Played
+          th Win Ratio
+      tbody 
+        - @users.each do |user|
+          tr 
+            th = user.username
+            th = user.total_games
+            th = user.total_wins
+            th = Time.at((current_user.time_played)).utc.strftime("%H:%M:%S")
+            th = "#{(user.total_wins / user.total_games)}%"
