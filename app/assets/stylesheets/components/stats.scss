@@ -1,0 +1,10 @@
+.stats {
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--op-space-3x-large);
+  gap: var(--op-space-large);
+
+  .stats__title {
+    font-size: var(--op-font-large);
+  }
+}
