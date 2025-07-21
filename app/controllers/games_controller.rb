@@ -1,7 +1,9 @@
 class GamesController < ApplicationController
   def index
-    @your_games = current_user.games
-    @all_games = Game.where.not(id: current_user.game_ids)
+    @games = Game.all
+    @finished_games = @games.select { |game| game.go_fish.game_over? }
+    @your_games = @games.select { |game| (current_user.games.include? game) && (!@finished_games.include? game) }
+    @other_games = @games.select { |game| (!current_user.games.include? game) && (!@finished_games.include? game) }
   end
 
   def new

@@ -22,5 +22,24 @@ RSpec.describe Game, type: :model do
       expect(game.go_fish.deck.cards_left).to eq Deck::BASE_DECK_SIZE - (GoFish::BASE_HAND_SIZE * 2)
       expect(game.go_fish.players.first.hand.count).to eq 7
     end
+
+    it 'increments total_games' do
+      game.start_if_possible!
+      expect(User.find(user.id).total_games).to eq 1
+      expect(User.find(other_user.id).total_games).to eq 1
+    end
+  end
+
+  describe '#winner' do
+    before do
+      game.start_if_possible!
+      allow(game.go_fish).to receive(:winner).and_return(game.get_player_by_user(user))
+    end
+
+    it 'increments total_wins for winner' do
+      game.winner
+      expect(User.find(other_user.id).total_wins).to eq 0
+      expect(User.find(user.id).total_wins).to eq 1
+    end
   end
 end

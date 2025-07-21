@@ -14,3 +14,12 @@
 @use './components/game-page.scss';
 @use './components/sidebar.scss';
 @use './components/stats.scss';
+
+.app-with-sidebar {
+  overflow: hidden;
+
+  .app__content {
+    overflow: auto;
+    padding-bottom: var(--op-space-3x-large);
+  }
+}

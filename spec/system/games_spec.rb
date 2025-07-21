@@ -3,6 +3,7 @@ include Warden::Test::Helpers
 
 RSpec.describe 'games', type: :system do
   include ActiveJob::TestHelper
+  include ActiveSupport::Testing::TimeHelpers
 
   let!(:user) { create(:user) }
 
@@ -54,17 +55,15 @@ RSpec.describe 'games', type: :system do
       before do
         login_as other_user
         visit games_path
+        expect(page).to have_content("Join")
+        click_on "Join", match: :first
       end
 
       it 'increments players on join' do
-        expect(page).to have_content("Join")
-        click_on "Join", match: :first
         expect(page).to have_content("2/2")
       end
 
       it 'keeps the game leader the same' do
-        expect(page).to have_content("Join")
-        click_on "Join", match: :first
         expect(page).to have_content("2/2")
         find(".ph-arrow-left").click
         expect(page).to_not have_button("Delete")
@@ -75,8 +74,6 @@ RSpec.describe 'games', type: :system do
         let!(:game) { create(:game, users: [ user ], players_count: 1) }
 
         it 'does not join the game' do
-          expect(page).to have_content("Join")
-          click_on "Join", match: :first
           expect(page).to have_content("All Games")
         end
       end
@@ -244,7 +241,9 @@ RSpec.describe 'games', type: :system do
         game.get_player_by_user(user).books = [ [ Card.new('A', 'H') ] ]
         game.save!
         visit games_path
-        click_on "Play"
+        within '.game-row__actions', match: :first do
+          click_on "Play"
+        end
       end
 
       it 'displays players books' do
@@ -294,7 +293,9 @@ RSpec.describe 'games', type: :system do
         game.get_player_by_user(other_user).books = [ [ Card.new('A', 'H') ] ]
         game.save!
         visit games_path
-        click_on "Play"
+        within '.game-row__actions', match: :first do
+          click_on "Play"
+        end
       end
 
       it 'displays books' do
@@ -323,7 +324,17 @@ RSpec.describe 'games', type: :system do
           game.save!
           login_as user
           visit games_path
-          click_on "Play"
+          within '.game-row__actions', match: :first do
+            click_on "Play"
+          end
+        end
+
+        it 'updates current_user time played' do
+          click_on "Play Round"
+          original_time = user.time_played
+          travel_to(1.minute.from_now)
+          click_on "Play Round"
+          expect(User.find(user.id).time_played).to_not eq original_time
         end
 
         context 'when target has request' do

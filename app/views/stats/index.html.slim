@@ -18,6 +18,7 @@
   .app__content.stats
     .stats__title Stats
     span Players
+    = paginate @users, class: "pagination"
     table.table.table--primary
       thead 
         tr 
@@ -33,23 +34,23 @@
             th = user.total_games
             th = user.total_wins
             th = Time.at((user.time_played)).utc.strftime("%H:%M:%S")
-            th = "#{user.total_wins / (user.total_games == 0 ? 1 : user.total_games)}%"
-    span Games
-    table.table.table--primary
-      thead 
-        tr 
-          th Name 
-          th Players 
-          th Bots
-          th Bot Difficulty
-          th Winner
-          th Rounds
-      tbody 
-        - current_user.games.each do |game|
-          tr 
-            th = game.name
-            th = game.players_count
-            th = game.bots_count
-            th = game.bot_difficulty
-            th = game.go_fish.winner.name
-            th = game.go_fish.round_results.count
+            th = "#{(user.total_wins / (user.total_games == 0 ? 1 : user.total_games) * 100)}%"
+    / span Games
+    / table.table.table--primary
+    /   thead 
+    /     tr 
+    /       th Name 
+    /       th Players 
+    /       th Bots
+    /       th Bot Difficulty
+    /       th Winner
+    /       th Rounds
+    /   tbody 
+    /     - current_user.games.each do |game|
+    /       tr 
+    /         th = game.name
+    /         th = game.players_count
+    /         th = game.bots_count
+    /         th = game.bot_difficulty
+    /         th = game.game_over? ? game.go_fish.winner.name : "In Progress"
+    /         th = game.go_fish.round_results.count

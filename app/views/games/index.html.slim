@@ -33,5 +33,10 @@
     
     section.games__section
       span.games__header All Games
-      - @all_games.each do |game|
+      - @other_games.each do |game|
+        = render 'game-row', game: game, user: current_user
+    
+    section.games__section
+      span.games__header Finished Games
+      - @finished_games.each do |game|
         = render 'game-row', game: game, user: current_user
