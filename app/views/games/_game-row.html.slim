@@ -15,6 +15,8 @@
       = link_to game, class: "btn btn--primary"
         span Play
         i.icon.ph.ph-play
-    - else 
+    - elsif game.users.count < game.players_count
       = button_to "Join", game_users_path, class: "btn", params: { game_id: game, user_id: current_user}, alt: "Play"
+    - else 
+      span Game is Full
 = render 'games/confirm'

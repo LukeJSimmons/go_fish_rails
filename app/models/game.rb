@@ -15,6 +15,8 @@ class Game < ApplicationRecord
 
   broadcasts_refreshes
 
+  scope :with_game_ids, ->(game_ids) { where(id: game_ids) }
+
   def start_if_possible!
     return unless users.count == players_count
     users.map { |user| user.add_game }

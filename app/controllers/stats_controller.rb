@@ -1,5 +1,6 @@
 class StatsController < ApplicationController
   def index
-    @users = User.order(:username).page params[:page]
+    @q = User.ransack(params[:q])
+    @users = @q.result(distinct: true).page params[:page]
   end
 end

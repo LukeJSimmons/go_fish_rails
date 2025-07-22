@@ -5,7 +5,7 @@
 
   padding: var(--op-space-medium);
 
-  box-shadow: var(--op-border-all) var(--op-color-primary-plus-four);
+  box-shadow: inset var(--op-border-all) var(--op-color-primary-plus-four);
   border-radius: var(--op-radius-large);
 
   background-color: var(--op-color-primary-plus-six);
@@ -36,6 +36,14 @@
     > * {
       flex: 1;
       padding-block: var(--op-space-small);
+    }
+  }
+
+  &.game-row--accordion {
+    display: block;
+
+    summary {
+      width: 100%;
     }
   }
 }

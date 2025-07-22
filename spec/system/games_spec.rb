@@ -55,15 +55,15 @@ RSpec.describe 'games', type: :system do
       before do
         login_as other_user
         visit games_path
-        expect(page).to have_content("Join")
-        click_on "Join", match: :first
       end
 
       it 'increments players on join' do
+        click_on "Join", match: :first
         expect(page).to have_content("2/2")
       end
 
       it 'keeps the game leader the same' do
+        click_on "Join", match: :first
         expect(page).to have_content("2/2")
         find(".ph-arrow-left").click
         expect(page).to_not have_button("Delete")
@@ -74,6 +74,7 @@ RSpec.describe 'games', type: :system do
         let!(:game) { create(:game, users: [ user ], players_count: 1) }
 
         it 'does not join the game' do
+          expect(page).to_not have_content("Join")
           expect(page).to have_content("All Games")
         end
       end

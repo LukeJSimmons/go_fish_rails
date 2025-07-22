@@ -11,7 +11,7 @@
       = link_to stats_path, class: "btn"
         i.icon.icon--x-large.ph.ph-chart-bar
         span Stats
-      = link_to games_path, class: "btn"
+      = link_to observable_games_path, class: "btn"
         i.icon.icon--x-large.ph.ph-clock-counter-clockwise
         span History
     .sidebar__content.sidebar__content--end
@@ -20,19 +20,23 @@
       = button_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn--destructive"
   .app__content.stats
     .stats__title Stats
-    span Players
+    = search_form_for @q, url: stats_path do |form|
+      = form.search_field :username_cont
+      = form.submit
     = paginate @users
     table.table.table--primary
       thead 
         tr 
+          th Rank
           th Name 
           th Total Games 
           th Total Wins 
           th Time Played
           th Win Ratio
       tbody 
-        - @users.each do |user|
+        - @users.each_with_index do |user, index|
           tr 
+            th = index + 1
             th = user.username
             th = user.total_games
             th = user.total_wins

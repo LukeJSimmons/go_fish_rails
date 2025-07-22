@@ -1,5 +1,5 @@
 class GoFish
-  attr_accessor :round, :round_results, :deck, :players
+  attr_accessor :round, :round_results, :deck, :players, :game_over
 
   BASE_HAND_SIZE = 7
 
@@ -8,6 +8,7 @@ class GoFish
     @players = players
     @round = round
     @round_results = round_results
+    @game_over = self.game_over?
   end
 
   def start!

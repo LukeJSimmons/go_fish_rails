@@ -29,8 +29,8 @@
             span New Game
     
     .tab-group
-      = link_to "Your Games", games_path, class: "tab"
-      = link_to "All Games", games_path(user_game_ids: User.all.flat_map { |user| user.game_ids }), class: "tab"
+      = link_to "Your Games", observable_games_path, class: "tab"
+      = link_to "All Games", observable_games_path(user_game_ids: User.all.flat_map { |user| user.game_ids }), class: "tab"
     
     section.games__section
       .games__content

@@ -1,8 +1,6 @@
 class GamesController < ApplicationController
   def index
-    @games = Game.order(:name).page params[:page]
-    @your_games = current_user.games.order(:name).page params[:page]
-    @other_games = Game.where.not(id: current_user.game_ids).order(:name).page params[:page]
+    @games = Game.with_game_ids(params["user_game_ids"] || current_user.game_ids).order(:name).page params[:page]
   end
 
   def new
