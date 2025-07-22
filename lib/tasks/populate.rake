@@ -1,7 +1,8 @@
 namespace "data" do
   desc "Create 100 Users and Games for Each"
-  task populate: :environment do
-    30.times.each_with_index do |i|
+  task populate: :environment do |t, args|
+    user_count = args.extras[0].to_i
+    user_count.times.each_with_index do |i|
       User.create(
         email: "user#{i}@example.com",
         username: "Test",
@@ -10,7 +11,7 @@ namespace "data" do
       )
     end
     user_count = User.count
-    30.times.each_with_index do |i|
+    user_count.times.each_with_index do |i|
       offset = rand(user_count)
       users = User.offset(offset).first((2..5).to_a.sample)
       game = Game.create!(users: users, name: "Game #{i}", players_count: users.count, bots_count: 0, bot_difficulty: 0)

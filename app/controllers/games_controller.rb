@@ -1,6 +1,7 @@
 class GamesController < ApplicationController
   def index
-    @games = Game.with_game_ids(params["user_game_ids"] || current_user.game_ids).order(:name).page params[:page]
+    @games = Game.order(:name).page params[:page]
+    @games = @games.joins(:game_users).where(game_users: { user_id: params[:user_id] }) if params[:user_id]
   end
 
   def new

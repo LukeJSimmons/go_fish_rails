@@ -6,13 +6,13 @@
       br
       span The Logo
     .sidebar__content
-      = link_to root_path, class: "btn"
+      = link_to games_path(user_id: current_user.id), class: "btn"
         i.icon.icon--x-large.ph.ph-game-controller
         span Games
       = link_to stats_path, class: "btn"
         i.icon.icon--x-large.ph.ph-chart-bar
         span Stats
-      = link_to observable_games_path, class: "btn"
+      = link_to observable_games_path(user_id: current_user.id), class: "btn"
         i.icon.icon--x-large.ph.ph-clock-counter-clockwise
         span History
     .sidebar__content.sidebar__content--end
@@ -27,10 +27,10 @@
           a.btn.btn--primary href=new_game_path
             i.icon.ph.ph-plus
             span New Game
-    
+
     .tab-group
-      = link_to "Your Games", observable_games_path, class: "tab"
-      = link_to "All Games", observable_games_path(user_game_ids: User.all.flat_map { |user| user.game_ids }), class: "tab"
+      = link_to "Your Games", observable_games_path(user_id: current_user.id), class: "tab"
+      = link_to "All Games", observable_games_path, class: "tab"
     
     section.games__section
       .games__content

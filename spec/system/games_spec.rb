@@ -58,11 +58,13 @@ RSpec.describe 'games', type: :system do
       end
 
       it 'increments players on join' do
+        click_on "All Games"
         click_on "Join", match: :first
         expect(page).to have_content("2/2")
       end
 
       it 'keeps the game leader the same' do
+        click_on "All Games"
         click_on "Join", match: :first
         expect(page).to have_content("2/2")
         find(".ph-arrow-left").click
@@ -164,7 +166,7 @@ RSpec.describe 'games', type: :system do
     before do
       login_as other_user
       visit games_path
-      expect(page).to have_content("Join")
+      click_on "All Games"
       click_on "Join"
       expect(page).to have_content("Turn")
       game.reload
@@ -319,12 +321,10 @@ RSpec.describe 'games', type: :system do
         let(:request) { game.get_player_by_user(user).hand.first.rank }
 
         before do
-          game.go_fish.deck = deck
-          game.go_fish.players.first.hand = player1_hand
-          game.go_fish.players[1].hand = player2_hand
-          game.save!
+          setup_round(deck, player1_hand, player2_hand)
           login_as user
           visit games_path
+          click_on 'All Games'
           within '.game-row__actions', match: :first do
             click_on "Play"
           end
@@ -453,5 +453,12 @@ RSpec.describe 'games', type: :system do
     visit game_path(game)
     click_on "Play Round"
     game.reload
+  end
+
+  def setup_round(deck, player1_hand, player2_hand)
+    game.go_fish.deck = deck
+    game.go_fish.players.first.hand = player1_hand
+    game.go_fish.players[1].hand = player2_hand
+    game.save!
   end
 end

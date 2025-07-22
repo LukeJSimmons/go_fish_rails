@@ -17,7 +17,7 @@ class RoundResult
 
   def player_response(recipient)
      return "#{object(recipient)} didn't have any #{request}s" if matching_cards.empty?
-     "You took #{matching_cards.count} #{request}s from #{object(recipient)}"
+     "#{subject(recipient)} took #{matching_cards.count} #{request}s from #{object(recipient)}"
   end
 
   def game_response(recipient)

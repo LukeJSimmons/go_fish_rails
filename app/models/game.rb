@@ -15,7 +15,9 @@ class Game < ApplicationRecord
 
   broadcasts_refreshes
 
-  scope :with_game_ids, ->(game_ids) { where(id: game_ids) }
+  def self.ransackable_attributes(auth_object = nil)
+    [ "bot_difficulty", "bots_count", "created_at", "go_fish", "id", "name", "players_count", "updated_at" ]
+  end
 
   def start_if_possible!
     return unless users.count == players_count

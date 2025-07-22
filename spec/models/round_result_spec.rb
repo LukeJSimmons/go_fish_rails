@@ -44,6 +44,18 @@ RSpec.describe RoundResult do
         expect(result.player_response(current_player)).to include request
       end
 
+      context 'when displaying to current_player' do
+        it 'displays in 2nd person' do
+          expect(result.player_response(current_player)).to include "You took"
+        end
+      end
+
+      context 'when displaying to opponent' do
+        it 'displays in 3rd person' do
+          expect(result.player_response(nil)).to include "#{current_player.name} took"
+        end
+      end
+
       context 'when displaying to target' do
         it 'displays message in the 2nd person' do
           expect(result.player_response(target)).to include "from You"

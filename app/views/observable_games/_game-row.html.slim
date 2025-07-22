@@ -6,8 +6,9 @@ details.accordion.game-row.game-row--accordion
     .game-row__actions
       span = game.game_over? ? "#{game.winner.name} Won" : "In Progress"
       span = "Round #{game.go_fish.round_results.count}"
-  - game.go_fish.round_results.each do |result|
-    .flex.gap-sm
+  - game.go_fish.round_results.each_with_index do |result, index|
+    .game-row.game-row--round
+      span = "Round #{index+1}"
       span = result.player_action(nil)
       span = result.player_response(nil)
       span = result.game_response(nil)
