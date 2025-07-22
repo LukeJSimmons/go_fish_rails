@@ -11,6 +11,9 @@
       = link_to stats_path, class: "btn"
         i.icon.icon--x-large.ph.ph-chart-bar
         span Stats
+      = link_to games_path, class: "btn"
+        i.icon.icon--x-large.ph.ph-clock-counter-clockwise
+        span History
     .sidebar__content.sidebar__content--end
       .divider
       = link_to "Signed in as #{current_user.username}", edit_user_registration_path, class: "btn"
@@ -18,7 +21,7 @@
   .app__content.stats
     .stats__title Stats
     span Players
-    = paginate @users, class: "pagination"
+    = paginate @users
     table.table.table--primary
       thead 
         tr 

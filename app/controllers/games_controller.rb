@@ -1,9 +1,8 @@
 class GamesController < ApplicationController
   def index
-    @games = Game.all
-    @finished_games = @games.select { |game| game.go_fish.game_over? }
-    @your_games = @games.select { |game| (current_user.games.include? game) && (!@finished_games.include? game) }
-    @other_games = @games.select { |game| (!current_user.games.include? game) && (!@finished_games.include? game) }
+    @games = Game.order(:name).page params[:page]
+    @your_games = current_user.games.order(:name).page params[:page]
+    @other_games = Game.where.not(id: current_user.game_ids).order(:name).page params[:page]
   end
 
   def new

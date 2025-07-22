@@ -12,6 +12,9 @@
       = link_to stats_path, class: "btn"
         i.icon.icon--x-large.ph.ph-chart-bar
         span Stats
+      = link_to games_path, class: "btn"
+        i.icon.icon--x-large.ph.ph-clock-counter-clockwise
+        span History
     .sidebar__content.sidebar__content--end
       .divider
       = link_to "Signed in as #{current_user.username}", edit_user_registration_path, class: "btn"
@@ -28,15 +31,12 @@
     section.games__section
       span.games__header Your Games
       .games__content
+        = paginate @your_games
         - @your_games.each do |game|
           = render 'game-row', game: game
     
     section.games__section
       span.games__header All Games
+      = paginate @other_games
       - @other_games.each do |game|
-        = render 'game-row', game: game, user: current_user
-    
-    section.games__section
-      span.games__header Finished Games
-      - @finished_games.each do |game|
         = render 'game-row', game: game, user: current_user
