@@ -15,5 +15,6 @@
     "@rolemodel/optics": "^2.1.4",
     "@rolemodel/turbo-confirm": "^2.1.1",
     "sass": "^1.89.2"
-  }
+  },
+  "packageManager": "yarn@1.22.22"
 }

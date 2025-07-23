@@ -82,3 +82,5 @@ group :test do
 end
 
 gem "simple_form", "~> 5.3"
+
+gem "dockerfile-rails", ">= 1.7", group: :development
