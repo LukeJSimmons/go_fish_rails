@@ -12,6 +12,17 @@ RSpec.describe 'games', type: :system do
     visit games_path
   end
 
+  describe 'index page' do
+    let!(:game) { create(:game, users: [ user ]) }
+    let!(:finished_game) { create(:game, users: [ user ], name: "Finished Game", end_time: Time.now) }
+
+    it 'does not show finished games' do
+      visit games_path
+      expect(page).to have_content(game.name)
+      expect(page).to_not have_content(finished_game.name)
+    end
+  end
+
   describe 'creating a new game' do
     it 'has a new game button' do
       expect(page).to have_content("New Game")
