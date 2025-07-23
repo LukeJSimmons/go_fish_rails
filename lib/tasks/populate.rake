@@ -5,7 +5,7 @@ namespace "data" do
     user_count.times.each_with_index do |i|
       User.create(
         email: "user#{i}@example.com",
-        username: "Test",
+        username: "Test #{i}",
         password: "password",
         password_confirmation: "password"
       )
@@ -14,7 +14,7 @@ namespace "data" do
     user_count.times.each_with_index do |i|
       offset = rand(user_count)
       users = User.offset(offset).first((2..5).to_a.sample)
-      game = Game.create!(users: users, name: "Game #{i}", players_count: users.count, bots_count: 0, bot_difficulty: 0)
+      game = Game.create!(users: users, name: "Game #{i}", players_count: users.count, bots_count: 0, bot_difficulty: 0, winner_id: users.first.id, end_time: Time.now + 10.minutes)
       game.start_if_possible!
       # play random number of rounds or all the way through
     end

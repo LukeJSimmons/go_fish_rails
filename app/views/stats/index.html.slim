@@ -23,41 +23,22 @@
     = search_form_for @q, url: stats_path do |form|
       = form.search_field :username_cont
       = form.submit
-    = paginate @users
+    = paginate @stats
     table.table.table--primary
       thead 
         tr 
-          th Rank
           th Name 
-          th Total Games 
-          th Total Wins 
-          th Time Played
+          th Wins 
+          th Losses
+          th Games Played
           th Win Ratio
+          th Time Played
       tbody 
-        - @users.each_with_index do |user, index|
+        - @stats.each do |stat|
           tr 
-            th = index + 1
-            th = user.username
-            th = user.total_games
-            th = user.total_wins
-            th = Time.at((user.time_played)).utc.strftime("%H:%M:%S")
-            th = "#{(user.total_wins / (user.total_games == 0 ? 1 : user.total_games) * 100)}%"
-    / span Games
-    / table.table.table--primary
-    /   thead 
-    /     tr 
-    /       th Name 
-    /       th Players 
-    /       th Bots
-    /       th Bot Difficulty
-    /       th Winner
-    /       th Rounds
-    /   tbody 
-    /     - current_user.games.each do |game|
-    /       tr 
-    /         th = game.name
-    /         th = game.players_count
-    /         th = game.bots_count
-    /         th = game.bot_difficulty
-    /         th = game.game_over? ? game.go_fish.winner.name : "In Progress"
-    /         th = game.go_fish.round_results.count
+            th = stat.username
+            th = stat.total_wins
+            th = stat.total_losses
+            th = stat.total_games
+            th = stat.win_ratio
+            th = stat.time_played

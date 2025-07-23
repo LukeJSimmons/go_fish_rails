@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_21_144558) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_23_132724) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -31,6 +31,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_144558) do
     t.jsonb "go_fish"
     t.integer "bots_count"
     t.integer "bot_difficulty"
+    t.integer "winner_id"
+    t.datetime "start_time", default: "2025-07-23 13:27:00"
+    t.datetime "end_time"
   end
 
   create_table "users", force: :cascade do |t|
@@ -52,4 +55,29 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_144558) do
 
   add_foreign_key "game_users", "games"
   add_foreign_key "game_users", "users"
+
+  create_view "stats", sql_definition: <<-SQL
+      SELECT users.username,
+      count(game_users.id) AS total_games,
+      count(
+          CASE users.id
+              WHEN games.winner_id THEN 1
+              ELSE NULL::integer
+          END) AS total_wins,
+      count(
+          CASE users.id
+              WHEN games.winner_id THEN NULL::integer
+              ELSE 1
+          END) AS total_losses,
+      round((((count(
+          CASE users.id
+              WHEN games.winner_id THEN 1
+              ELSE NULL::integer
+          END))::double precision / (count(game_users.id))::double precision) * (100)::double precision)) AS win_ratio,
+      sum((games.end_time - games.start_time)) AS time_played
+     FROM ((users
+       JOIN game_users ON ((users.id = game_users.user_id)))
+       JOIN games ON ((games.id = game_users.game_id)))
+    GROUP BY users.id;
+  SQL
 end

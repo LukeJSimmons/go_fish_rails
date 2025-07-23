@@ -10,16 +10,6 @@ class User < ApplicationRecord
     [ "created_at", "email", "encrypted_password", "id", "id_value", "last_seen_at", "remember_created_at", "reset_password_sent_at", "reset_password_token", "time_played", "total_games", "total_wins", "updated_at", "username" ]
   end
 
-  def add_game
-    self.total_games += 1
-    save!
-  end
-
-  def add_win
-    self.total_wins += 1
-    save!
-  end
-
   ActivityThreshold = 5.minutes
 
   def active_now!
