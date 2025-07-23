@@ -40,5 +40,5 @@
             th = stat.total_wins
             th = stat.total_losses
             th = stat.total_games
-            th = stat.win_ratio
-            th = stat.time_played
+            th = "#{stat.win_ratio.to_i}%"
+            th = Time.at((stat.time_played)).utc.strftime("%H:%M:%S")
