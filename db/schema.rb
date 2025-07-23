@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_23_132724) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_23_181901) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -57,7 +57,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_23_132724) do
   add_foreign_key "game_users", "users"
 
   create_view "stats", sql_definition: <<-SQL
-      SELECT users.username,
+      SELECT users.id,
+      users.username,
       count(game_users.id) AS total_games,
       count(
           CASE users.id
@@ -78,6 +79,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_23_132724) do
      FROM ((users
        JOIN game_users ON ((users.id = game_users.user_id)))
        JOIN games ON ((games.id = game_users.game_id)))
-    GROUP BY users.id;
+    GROUP BY users.id, users.username;
   SQL
 end
