@@ -4,12 +4,13 @@ details.accordion.game-row.game-row--accordion
       span = game.name 
       span = "#{game.users.count}/#{game.players_count}"
     .game-row__actions
-      span = game.game_over? ? "#{game.winner.name} Won" : "In Progress"
-      span = "Round #{game.go_fish.round_results.count}"
-  - game.go_fish.round_results.each_with_index do |result, index|
-    .game-row.game-row--round
-      span = "Round #{index+1}"
-      span = result.player_action(nil)
-      span = result.player_response(nil)
-      span = result.game_response(nil)
+      span = game.end_time ? "#{game.winner.name} Won" : "In Progress"
+      span = "Round #{game.go_fish.round_results.count}" if game.go_fish
+  - if game.go_fish
+    - game.go_fish.round_results.each_with_index do |result, index|
+      .game-row.game-row--round
+        span = "Round #{index+1}"
+        span = result.player_action(nil)
+        span = result.player_response(nil)
+        span = result.game_response(nil)
 = render 'games/confirm'
