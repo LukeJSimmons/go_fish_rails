@@ -29,8 +29,8 @@
             span New Game
     
     .tab-group
-      = link_to "Your Games", games_path(user_id: current_user.id), class: "tab"
-      = link_to "All Games", games_path, class: "tab"
+      = link_to "Your Games", games_path(user_id: current_user.id), class: "tab #{"tab--active" if params[:user_id]}"
+      = link_to "All Games", games_path, class: "tab #{"tab--active" unless params[:user_id]}"
     
     section.games__section
       .games__content
