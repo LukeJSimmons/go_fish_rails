@@ -54,3 +54,11 @@
     border-radius: 0;
   }
 }
+
+@media (width <= 768px) {
+  .game-row {
+    .game-row__text {
+      display: none;
+    }
+  }
+}

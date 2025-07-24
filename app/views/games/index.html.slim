@@ -8,17 +8,21 @@
     .sidebar__content
       = link_to games_path(user_id: current_user.id), class: "btn"
         i.icon.icon--x-large.ph.ph-game-controller
-        span Games
+        span.sidebar__text Games
       = link_to stats_path, class: "btn"
         i.icon.icon--x-large.ph.ph-chart-bar
-        span Stats
+        span.sidebar__text Stats
       = link_to observable_games_path(user_id: current_user.id), class: "btn"
         i.icon.icon--x-large.ph.ph-clock-counter-clockwise
-        span History
+        span.sidebar__text History
     .sidebar__content.sidebar__content--end
       .divider
-      = link_to "Signed in as #{current_user.username}", edit_user_registration_path, class: "btn"
-      = button_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn--destructive"
+      = link_to edit_user_registration_path, class: "btn"
+        i.icon.icon--x-large.ph.ph-user-circle
+        span.sidebar__text = current_user.username
+      = button_to destroy_user_session_path, method: :delete, class: "btn btn--destructive"
+        i.icon.icon--x-large.ph.ph-sign-out
+        span.sidebar__text Sign out
   .app__content.games
     section.games__section
       .games__content

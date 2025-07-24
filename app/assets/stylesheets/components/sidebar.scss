@@ -26,3 +26,24 @@
     }
   }
 }
+
+@media (width <= 768px) {
+  .sidebar.sidebar--home {
+    --__op-sidebar-width: 8rem;
+
+    .sidebar__brand,
+    .sidebar__text {
+      display: none;
+    }
+
+    .btn {
+      padding: 0;
+      background-color: var(--op-color-background);
+      color: var(--op-color-on-background);
+    }
+
+    .sidebar__content.sidebar__content--end {
+      padding-inline: var(--_op-sidebar-content-spacing);
+    }
+  }
+}

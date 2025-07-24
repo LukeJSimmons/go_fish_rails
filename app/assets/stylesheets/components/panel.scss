@@ -76,3 +76,11 @@
     }
   }
 }
+
+@media (width <= 768px) {
+  .panel {
+    &.panel--feed {
+      grid-row: 4;
+    }
+  }
+}
