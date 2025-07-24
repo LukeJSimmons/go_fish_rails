@@ -4,7 +4,7 @@ details.accordion.game-row.game-row--accordion
       span = game.name 
       span = "#{game.users.count}/#{game.players_count}"
     .game-row__actions
-      span = game.end_time ? "#{game.winner.name} Won" : "In Progress"
+      span = game.end_time ? "#{User.find(game.winner_id).username} Won" : "In Progress"
       span = "Round #{game.go_fish.round_results.count}" if game.go_fish
   - if game.go_fish
     - game.go_fish.round_results.each_with_index do |result, index|

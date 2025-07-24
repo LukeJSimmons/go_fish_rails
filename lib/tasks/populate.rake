@@ -9,6 +9,7 @@ namespace "data" do
         password: "password",
         password_confirmation: "password"
       )
+      puts "Created User #{i}"
     end
     user_count = User.count
     user_count.times.each_with_index do |i|
@@ -16,6 +17,7 @@ namespace "data" do
       users = User.offset(offset).first((2..5).to_a.sample)
       game = Game.create!(users: users, name: "Game #{i}", players_count: users.count, bots_count: 0, bot_difficulty: 0, winner_id: users.first.id, end_time: Time.now + 10.minutes)
       game.start_if_possible!
+      puts "Created Game #{i}"
       # play random number of rounds or all the way through
     end
   end
