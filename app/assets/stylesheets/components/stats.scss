@@ -7,4 +7,11 @@
   .stats__title {
     font-size: var(--op-font-large);
   }
+
+  .stats__column-header {
+    a {
+      color: var(--op-color-primary-on-plus-six-alt);
+      text-decoration: none;
+    }
+  }
 }

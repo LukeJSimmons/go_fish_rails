@@ -27,12 +27,12 @@
     table.table.table--primary
       thead 
         tr 
-          th Name 
-          th Wins 
-          th Losses
-          th Games Played
-          th Win Ratio
-          th Time Played
+          th.stats__column-header = sort_link @q, :username, "Name"
+          th.stats__column-header = sort_link @q, :total_wins, "Wins" 
+          th.stats__column-header = sort_link @q, :total_losses, "Losses" 
+          th.stats__column-header = sort_link @q, :total_games, "Games Played" 
+          th.stats__column-header = sort_link @q, :win_ratio, "Win Ratio" 
+          th.stats__column-header = sort_link @q, :time_played, "Time Played" 
       tbody 
         - @stats.each do |stat|
           tr 
