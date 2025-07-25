@@ -9,17 +9,4 @@ class User < ApplicationRecord
   def self.ransackable_attributes(auth_object = nil)
     [ "created_at", "email", "encrypted_password", "id", "id_value", "last_seen_at", "remember_created_at", "reset_password_sent_at", "reset_password_token", "time_played", "total_games", "total_wins", "updated_at", "username" ]
   end
-
-  ActivityThreshold = 5.minutes
-
-  def active_now!
-    time_since_last_activity = [ Time.now - last_seen_at, 0 ].max
-
-    if time_since_last_activity <= ActivityThreshold
-      self.time_played += time_since_last_activity
-    end
-
-    self.last_seen_at = Time.now
-    save!
-  end
 end

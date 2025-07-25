@@ -302,14 +302,6 @@ RSpec.describe 'games', type: :system do
           end
         end
 
-        it 'updates current_user time played' do
-          click_on "Play Round"
-          original_time = user.time_played
-          travel_to(1.minute.from_now)
-          click_on "Play Round"
-          expect(User.find(user.id).time_played).to_not eq original_time
-        end
-
         context 'when target has request' do
           before do
             expect(page).to have_button("Play Round")
