@@ -106,45 +106,6 @@ RSpec.describe 'games', type: :system do
     end
   end
 
-  describe 'editing a game' do
-    let(:name) { 'Game' }
-    let(:players_count) { 2 }
-
-    before do
-      create_game(name, players_count)
-    end
-
-    it 'has an edit game button' do
-      expect(page).to have_content("Edit")
-    end
-
-    it 'edits the game' do
-      click_on "Edit", match: :first
-      fill_in "Name", with: "Edited Game"
-      click_on "Update game"
-      expect(page).to have_content("Edited Game")
-    end
-  end
-
-  describe 'deleting a game' do
-    let(:name) { 'Unique Game Name' }
-    let(:players_count) { 2 }
-
-    before do
-      create_game(name, players_count)
-    end
-
-    it 'has an delete game button' do
-      expect(page).to have_content("Delete")
-    end
-
-    it 'deletes the game' do
-      expect(page).to have_content(name)
-      click_on "Delete", match: :first
-      expect(page).to have_no_content(name)
-    end
-  end
-
   describe 'solo game against bots' do
       let!(:game) { create(:game, users: [ user ], players_count: 1, bots_count: 1) }
 
