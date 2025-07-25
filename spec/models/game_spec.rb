@@ -23,7 +23,7 @@ RSpec.describe Game, type: :model do
       expect(game.go_fish.players.first.hand.count).to eq 7
     end
 
-    it 'sets end_time to current time' do
+    it 'sets start_time to current time' do
       game.start_if_possible!
       expect(game.start_time.utc).to be_within(1.second).of Time.now
     end

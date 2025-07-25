@@ -38,6 +38,8 @@
           th.stats__column-header = sort_link @q, :total_games, "Games Played" 
           th.stats__column-header = sort_link @q, :win_ratio, "Win Ratio" 
           th.stats__column-header = sort_link @q, :time_played, "Time Played" 
+          th.stats__column-header = sort_link @q, :first_game, "First Game" 
+          th.stats__column-header = sort_link @q, :last_game, "Last Game"
       tbody 
         - @stats.each do |stat|
           tr 
@@ -50,3 +52,5 @@
             th
               - if stat.time_played
                 = Time.at((stat.time_played)).utc.strftime("%H:%M:%S")
+            th = Time.at((stat.first_game)).utc.strftime("%Y-%m-%d")
+            th = Time.at((stat.last_game)).utc.strftime("%Y-%m-%d")

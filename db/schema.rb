@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_25_133323) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_25_141602) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -76,7 +76,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_25_133323) do
               WHEN games.winner_id THEN 1
               ELSE NULL::integer
           END))::double precision / (count(game_users.id))::double precision) * (100)::double precision)) AS win_ratio,
-      sum((games.end_time - games.start_time)) AS time_played
+      sum((games.end_time - games.start_time)) AS time_played,
+      min(games.start_time) AS first_game,
+      max(games.start_time) AS last_game
      FROM ((users
        JOIN game_users ON ((users.id = game_users.user_id)))
        JOIN games ON ((games.id = game_users.game_id)))
