@@ -3,13 +3,13 @@
     span = game.name 
     span = "#{game.users.count}/#{game.players_count}"
   .game-row__actions
-    - if game.game_users.first.user == current_user
-      = button_to game, method: :delete, class: "btn btn--destructive", data: { turbo_confirm: "Are you sure?" }, alt: "Delete"
-        span.game-row__text Delete
-        i.icon.ph.ph-trash
-      = link_to edit_game_path(game), class: "btn", alt: "Edit"
-        span.game-row__text Edit
-        i.icon.ph.ph-pencil-simple
+    / - if game.game_users.first.user == current_user
+    /   = button_to game, method: :delete, class: "btn btn--destructive", data: { turbo_confirm: "Are you sure?" }, alt: "Delete"
+    /     span.game-row__text Delete
+    /     i.icon.ph.ph-trash
+    /   = link_to edit_game_path(game), class: "btn", alt: "Edit"
+    /     span.game-row__text Edit
+    /     i.icon.ph.ph-pencil-simple
     
     - if game.users.include? current_user
       = link_to game, class: "btn btn--primary"
