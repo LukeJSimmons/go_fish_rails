@@ -1,6 +1,7 @@
 SELECT
 	users.id,
 	username,
+	ROW_NUMBER() OVER(ORDER BY COUNT(CASE users.id WHEN games.winner_id THEN 1 ELSE NULL END) DESC) as index,
 	COUNT(game_users.id) AS total_games,
 	COUNT(CASE users.id WHEN games.winner_id THEN 1 ELSE NULL END) AS total_wins,
 	COUNT(CASE users.id WHEN games.winner_id THEN NULL ELSE 1 END) AS total_losses,

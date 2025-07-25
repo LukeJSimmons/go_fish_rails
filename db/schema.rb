@@ -59,6 +59,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_23_181901) do
   create_view "stats", sql_definition: <<-SQL
       SELECT users.id,
       users.username,
+      row_number() OVER (ORDER BY (count(
+          CASE users.id
+              WHEN games.winner_id THEN 1
+              ELSE NULL::integer
+          END)) DESC) AS index,
       count(game_users.id) AS total_games,
       count(
           CASE users.id
