@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/RoleModel/rolemodel_rails.git
-  revision: 8866b851c787161cf81525fb36b2b1d9cf6342d4
+  revision: 8e71452e5eaf8b7111baacf0134ef777fd739273
   specs:
-    rolemodel_rails (0.15.0)
+    rolemodel_rails (0.19.0)
 
 GEM
   remote: https://rubygems.org/
